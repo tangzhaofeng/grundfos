@@ -1,0 +1,159 @@
+ {include file="public/header"}
+ <style >
+ .img_wrap #file_upload_img {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100% !important;
+}
+.img_wrap {
+    overflow: hidden;
+    height: 120px;
+    width: 120px;
+    position: relative;
+}
+.img_wrap img {
+    width: 100%;
+    height: 100%;
+    border: 1px dotted rgba(158, 158, 158, 0.01);
+}
+.form-group-col-2 .form-cont{
+	padding-left: 1px !important;
+}
+ </style>
+<!--添加或者修改的弹框-->
+     <div class="content">   
+		<div class="weui_dialog_hd">
+			<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">back</a>
+            <span class="weui_dialog_title">Create administrator </span>
+        </div>
+        <form  id="myform" class="parsley-validate" onsubmit="return mySubmit(true)" method="post" id="form" data-parsley-validate >  
+		
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">Account name: </label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="form-boxed form-control" type="text" name="username" value="" placeholder="name"  required="required">
+                </div>
+            </div>
+			<div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">Role：</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <select style="width:auto;" data-parsley-required="true" name="typeid"required="required">
+                        <option value="">Please select</option>
+                        {if !empty($role)}
+                        {foreach name="role" item="vo"}
+                        <option value="{$vo.id}">{$vo.rolename}</option>
+                        {/foreach}
+                        {/if}
+                    </select>	
+                </div>
+            </div>
+			<div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">Password:</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="form-boxed form-control" type="password" name="password" value="" placeholder="login password"  required="required">
+                </div>
+            </div>
+
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">Name:</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="form-boxed form-control" type="text" name="real_name" value="" placeholder="real name"  required="required">
+                </div>
+            </div>
+          
+            <div class="weui_cell">
+                <div class="weui_cell_hd"><label for="" class="weui_label">Allow login:</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <div class="opt">
+                        <input class="magic-radio" type="radio" name="status" id="r1" value="1"  checked="checked">
+                        <label for="r1">Yes</label>
+                    </div>
+                    <div class="opt">
+                        <input class="magic-radio" type="radio" name="status" id="r2" value="0" >
+                        <label for="r2">No</label>
+                    </div>
+                </div>
+            </div>  
+            <div class="form-group-col-2">
+                <div class="form-label"></div>
+                <div class="form-cont">
+					
+                    <input type="submit" class="btn btn-primary" value="Submit" style="margin: 30px 0;margin-left: 1px;"/>
+                </div>
+            </div> 
+        </form>
+    </div>   
+
+<script src="__STATIC__/js/common/jquery.js"></script> 
+<script src="__STATIC__/js/parsley.js"></script>
+<script>
+
+var is_submit=false;
+//表单验证成功后ajax提交保存
+ $('.parsley-validate').parsley().on('form:success', function() {
+    if(is_submit){return false;}
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url:"{:url('add')}",
+        data:$('#myform').serialize(),// 你的formid
+        async: false,
+        success: function(data) {
+            if(data.code == 1 ){ //success
+               window.location.href="{:url('index')}"
+            }else{
+               alert(data.msg, "错误提示");
+            }
+        }
+    })
+});
+
+//这个方法只是用来做个掩护,没有这个掩护是不行的!  
+function mySubmit(flag){  
+    return false;  
+}  
+
+</script>
+
+<script>
+var err_msg = ""; //错误提示信息
+var is_valid = true; //是否严重通过
+var weui_icon_warn="<i class='weui_icon_warn'></i>"; //错误图标
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

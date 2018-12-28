@@ -1,0 +1,14 @@
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/glf.iml
+application/database.php
+/runtime/
+/public/uploads/
+application/config.php
+thinkphp/tpl/think_exception.tpl
+thinkphp/convention.php
+/actimg/
+/gelanfu-view/
+

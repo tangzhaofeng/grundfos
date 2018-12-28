@@ -1,0 +1,188 @@
+
+        {include file="public/header"}
+        <div class="head">
+            <style>
+            .head {
+                position: relative;
+                width: 100%;
+                height: 5.85em;
+                margin-top: 1em;
+                background-size: 100% 100%;
+            }
+            .head-img {
+                position: absolute;
+                top: 1.015em;
+                left: 1.62em;
+                width: 3.82em;
+                height: 3.82em;
+                padding: 0.08em;
+                border-radius: 1.95em;
+                background-color: #fff;
+            }
+            .head-img img {
+                width: 100%;
+          
+            }
+            .head-dsb {
+                position: absolute;
+                top: 2.08em;
+                left: 7em;
+            }
+            .head-dsb p {
+    font-size: 0.9em;
+   
+}
+.weui_tab_nav {
+    width: 250px;
+    top: 10px;
+    position: absolute;
+    left: 10px;
+
+}
+.weui_navbar_item {
+	-webkit-box-flex: none !important; 
+	-webkit-flex: none !important;                                                                          
+	flex: none !important; 
+padding: 13px 22px;
+}
+            </style>
+			<div class="head-img">
+				<img src="{$customer.poster?$customer.poster:' __STATIC__/images/avator/user.png'}" />
+			</div>
+			<div class="head-dsb"> 
+				<p class="dsb-name" >-- {$customer.customerName}</p>
+				<p class="dsb-id">
+					Code:   {$customer.customerCode}
+					<div class="weui_tab " style="height:44px;position:absolute;top: 9px;left: 160px;" id="tab2">
+						<div class="weui_navbar" style="height:44px;">
+							<a href="{:url('cert/index',['center'=>1,'id'=>$customer.customerCode])}" class="weui_navbar_item tab-green">
+								<span class="icon icon-17"></span> User
+							</a>
+							<a href="{:url('banner/index',['id'=>$customer.customerCode])}" class="weui_navbar_item ">
+								<span class="icon icon-60"></span> Banner
+							</a>
+							<a href="{:url('welcome/index',['id'=>$customer.customerCode])}" class="weui_navbar_item ">
+								<span class="icon icon-110"></span> Welcome Letter & Tagline
+							</a>
+							<a href="{:url('logo/index',['id'=>$customer.customerCode])}" class="weui_navbar_item ">
+								<span class="icon icon-5"></span> Logo
+							</a>
+							<a href="{:url('certificate/index',['id'=>$customer.customerCode])}" class="weui_navbar_item ">
+								<span class="icon icon-5"></span> Certificate
+							</a>
+						</div>
+					</div> 
+				</p>
+			</div>
+		</div>
+       
+
+    <div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="{:url('index')}" method="post">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+						<input type="hidden" name="id" value="{$customer.customerCode}"></input>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('index',['export'=>true,'customerCode'=>$customer.customerCode])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-2"></i>Export</a>
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips"> All loaded, Total: {$return['total']} items</span>
+	</div>
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+				<th><i class="weui_icon_circle"></i></th>
+				<!--<th style="border-left:2px solid #fff">Cover</th>-->
+				<th>User id</th>
+				<th>Role</th>
+				<th>CreateTime</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+
+		<tbody>	
+			{if condition="($return['total'] > 0) "} 
+				{volist name="return['rows']" id="vo"}
+					<tr>
+						<td><i class="weui_icon_circle"></i></td>
+						<!--
+						<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+							<img src="__STATIC__/images/avator/user.png" style="width: 44px;">
+						</td>-->
+						<td> {$vo.userId}</td>
+						<td> {$vo.role}</td>
+						<td>{$vo.createTime}</td>
+						<td>
+							<a href="javascript:;" id="act" data-url="{:url('',array('type'=>'my_cert','uid'=>$vo.userId))}" target="childFrame"><span class="icon icon-18" title="View">View</span></a>
+                            <a href="javascript:;" id="delete" data-url="{:url('',array('type'=>'delete','id'=>$vo.id))}"><span class="icon icon-23" title="Delete">Delete</span></a>
+						</td>
+					</tr>  
+				{/volist}
+			{else /}	
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No recored been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>		
+	</table>
+	
+	<div class="pages">{$return['page']}</div>
+	<!--footer start -->
+	{include file="public/footer"}
+	<!--footer end-->
+
+
+
+
+
+
+
+<div class="weui_mask weui_actions_mask "></div>
+<div class="weui_actionsheet" id="weui_actionsheet">
+    <div class="weui_actionsheet_menu"></div>
+    <div class="weui_actionsheet_action">
+        <iframe name="childFrame" src=""style="width:100%;height:35%;border:none"></iframe>
+    </div>
+</div>
+
+<script src="__STATIC__/js/zepto.min.js"></script> 
+<script>
+    $(".weui-header-left,.icon-95").on("click",function(){
+        parent.closePopup();
+    }) 
+
+    $("a#act").on("click",function(){
+           $(".weui_mask").show().addClass("weui_mask_visible");  
+           $("#weui_actionsheet").show().addClass("weui_actionsheet_toggle"); 
+           $(".weui_mask,.weui_actionsheet").removeAttr("style"); 
+		   $("iframe").attr("src", $(this).attr("data-url")); 
+    })
+	var close_mask = function(){
+		 $(".weui_mask").removeClass("weui_mask_visible").hide();  
+         $("#weui_actionsheet").removeClass("weui_actionsheet_toggle").hide(); 
+        $(".weui_mask,.weui_actionsheet").removeAttr("style");  
+	}
+    $(".weui_mask").on("click",function(){
+          close_mask();
+    })
+	var close_mask_and_reflash = function(){
+		 close_mask();
+		 setTimeout(function () {
+           window.location.href=window.location.href
+       }, 1000);
+		 
+	}
+</script>

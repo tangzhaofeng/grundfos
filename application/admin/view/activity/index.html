@@ -1,0 +1,186 @@
+<!doctype html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<body>
+
+
+<!--header start -->
+{include file="public/header"}
+<!--header end-->
+<div class="module-toolbar g-clearfix">
+	<div class="prev-dom"></div>
+	<div class="default-dom">
+		<div class="list-grid-switch list-switched-on">
+			<a node-type="list-switch" style="display: none;" class="list-switch" href="javascript:void(0)">
+				<span class="icon icon-89"></span>
+			</a>
+		</div>
+
+		<div class="bar-search">
+			<div class="form-box" node-type="form-box">
+				<form class="search-form clearfix" action="index" method="post">
+					<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+					<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+				</form>
+			</div>
+		</div>
+		<div class="bar" style="white-space: nowrap; position: relative;">
+			<a href="{:url('add')}" style=" margin-top: 15px;" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>Add</a>
+			<!--<a href="{:url('export')}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-2"></i>Export</a>
+           -->
+		</div>
+	</div>
+</div>
+
+<div node-type="module-history-list" class="module-history-list">
+	<span class="history-list-dir">All</span>
+	<span class="history-list-tips">All loaded, Total:{$return['total']} items</span>
+</div>
+
+<table class="weui-table weui-border-tb" id="cusTable">
+	<thead>
+	<tr>
+		<th><i class="weui_icon_circle"></i></th>
+		<th  style="border-left:2px solid #fff">id</th>
+		<th>会展标题</th>
+		<th>会展图片</th>
+		<th>列表图片</th>
+		<th>是否公开</th>
+		<th>私密url</th>
+		<th>url</th>
+		<th>签到二维码</th>
+		<th>是否线上</th>
+		<th>会展时间</th>
+		<th>活动地点</th>
+		<th>红包金额</th>
+		<th>积分</th>
+		<th>bu部门</th>
+		<th>状态</th>
+		<th>操作</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	{if condition="($return['total'] > 0) "}
+	{volist name="return['rows']" id="vo"}
+	<tr>
+		<td><i class="weui_icon_circle"></i></td>
+		<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+			{$vo.id}
+		</td>
+		<td>{$vo.title}</td>
+		<td><img style="width: 95px;height: 35px" src="{$vo.img}" alt=""></td>
+		<td><img style="width: 95px;height: 35px" src="{$vo.list_img}" alt=""></td>
+		<td>{$vo.is_open==1 ? '公开' : '私密'}</td>
+		<td style="max-width: 200px">
+			{if condition="$vo.is_open eq 2"}
+			{$vo.open_url}
+			{/if}
+		</td>
+		<td style="max-width: 200px">
+			{if condition="$vo.is_open eq 1"}
+			{$vo.url}
+			{/if}
+		</td>
+		<td id="open_url">
+			{if condition="$vo.line eq 1"}
+			<input type="hidden" value="{$vo.id}" content="{$vo.bu_id}" name="open_url">
+
+			<div id = "qrcode" style="width:200px; height:200px; margin-top:15px;"></div>
+			{/if}
+		</td>
+		<td>{$vo.line== 1 ? '线下' : '线上'}</td>
+		<td>{$vo.time}--{$vo.time_end}</td>
+		<td>{$vo.city}</td>
+		<td>{$vo.money}元</td>
+		<td>{$vo.integral}</td>
+		<td>
+			<?php
+						$bu_name = '';
+						$bu_id = explode(',',$vo['bu_id']);
+						foreach($bu_id as $k => $v){
+			foreach($bu as $key => $val){
+			if($val['id'] == $v){
+			$bu_name .= $val['bu_name'].' ';
+			}
+			}
+			}
+			echo $bu_name;
+			?>
+		</td>
+		<td>{$vo.status==1 ? '正常' : '关闭'}</td>
+
+		<td>
+			<a href="{:url('info',array('id'=>$vo.id))}"><span class="icon icon-115" title="Edit">查看</span></a>
+			<a href="{:url('edit',array('id'=>$vo.id))}"><span class="icon icon-115" title="Edit">修改</span></a>
+			<a href="{:url('delete',array('id'=>$vo.id))}" id="delete" ><span class="icon icon-23"  title="delete">删除</span></a>
+		</td>
+	</tr>
+	{/volist}
+	{else /}
+	<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+		<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No record been found</p></div>
+	</div>
+	{/if}
+	</tbody>
+</table>
+
+<div class="pages">{$return['page']}</div>
+<!--footer start -->
+{include file="footer"}
+<!--footer end-->
+</body>
+</html>
+
+<script src="__STATIC__/js/zepto.min.js"></script>
+<script src="__STATIC__/js/picker.js"></script>
+<script src="__STATIC__/js/select.js"></script>
+<script>
+    //打开iframe
+    $("a.open-popup").on("click",function(){
+        $($(this).data("target")).popup();
+        $($(this).data("target")).find("iframe").attr("src", $(this).attr("data-url"));
+    })
+
+    var closePopup = function(){
+        $(".close-popup").click();
+    }
+    $(function () {
+
+        $('#open_url input').each(function (index,item) {
+            // console.log($(item).next());
+            var bu_id = $(item).attr('content')
+			if (bu_id == 1){
+                var type = 'a'
+			}else if(bu_id == 2){
+                var type = 'b'
+			}else if(bu_id == 3){
+                var type = 'c'
+            }else{
+                var type = 'd'
+			}
+
+            var url = 'https://www.juplus.cn/glf/index/index/?type='+type+'&view=/activity/signSuccess.html&on_activity_id='+$(item).val()
+           
+			$(item).next().qrcode({
+                text: url,
+                height: 200,
+                width: 200,
+                // src: '__STATIC__/images/qrcode.png'//这里配置Logo的地址即可。
+            })
+        })
+    })
+
+</script>
+
+<div id="popup" class="weui-popup-container" style="z-index: 99">
+	<div class="weui-popup-modal">
+		<p class="page-bd-15"><a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup" style="display: none">Close</a></p>
+		<iframe name="childFrame" src=""style="width:100%;height:100%;border:none"></iframe>
+	</div>
+</div>

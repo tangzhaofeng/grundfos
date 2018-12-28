@@ -1,0 +1,56 @@
+
+   {include file="public/header"}
+
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips"> All loaded, Total: {$return['total']} items</span>
+	</div>
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+				<th><i class="weui_icon_circle"></i></th>
+				<!--<th style="border-left:2px solid #fff">Cover</th>-->
+				<th>User id</th>
+				<th>Certificate</th> 
+				<th>Finish courseCode</th> 
+				<th>CreateTime</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+
+		<tbody>	
+			{if condition="($return['total'] > 0) "} 
+				{volist name="return['rows']" id="vo"}
+					<tr>
+						<td><i class="weui_icon_circle"></i></td>
+						<!--
+						<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+							<img src="__STATIC__/images/avator/user.png" style="width: 44px;">
+						</td>-->
+						<td> {$vo.userId}</td>
+						<td> {$vo.certId}</td>
+						<td> {$vo.courseCode}</td>
+						<td>{$vo.createTime}</td>
+						<td>
+                            <a href="{:url('index',['type'=>'my_cert_delete','id'=>$vo.id])}" id="delete"><span class="icon icon-23" title="Delete">Delete</span></a>
+						</td>
+					</tr>  
+				{/volist}
+			{else /}	
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No recored been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>		
+	</table>
+	
+	<div class="pages">{$return['page']}</div>
+
+
+	<!--footer start -->
+	{include file="public/footer"}
+	<!--footer end-->
+<script src="__STATIC__/js/zepto.min.js"></script>
+
+
+

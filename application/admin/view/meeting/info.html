@@ -1,0 +1,218 @@
+ {include file="public/header"}
+ <style >
+ .content {padding-top: 30px !important;}
+ .img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+.img_wrap { overflow: hidden;height: 100px;width: 100px;position: relative;}
+.img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+.form-group-col-2 .form-cont{padding-left: 1px !important;}
+
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+
+ <link rel="stylesheet" href="__STATIC__/admin/js/jquery.datetimepicker.css">
+ <script src="__STATIC__/admin/js/jquery.datetimepicker.min.js"></script>
+ <script src="__STATIC__/admin/js/jquery.datetimepicker.full.min.js"></script>
+
+
+<!--
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+-->
+
+<!--添加或者修改的弹框-->
+    <div class="content">   
+        <div class="weui_dialog_hd">
+			<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+            <span class="weui_dialog_title">分享赢取活动详情</span>
+        </div>
+		
+        <form id="myform" class="parsley-validate " onsubmit="return false" method="post" id="form" data-parsley-validate >
+            <input type="hidden" name="id" value="{$activity['id']}">
+            <div class="weui_cell" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">展会标题:</div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$activity['title']}
+                </div>
+            </div>
+
+
+            <div class="weui_cell" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">展会地点:</div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$activity['city']}
+                </div>
+            </div>
+
+            <div class="weui_cell" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">展会时间:</div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$activity['time']}
+                </div>
+            </div>
+            <script>
+
+                $('#datetimepicker').datetimepicker({
+                    dayOfWeekStart : 1,
+                    lang:'ch',
+                    startDate:	new Date(),
+                    allowDateRe :{format:'Y-m-d',allowDateRe:'\d{4}-(03-31|06-30|09-30|12-31)' }     ,        // 设置正则表达式检查日期 如：{format:'Y-m-d',allowDateRe:'\d{4}-(03-31|06-30|09-30|12-31)' }
+                    timepickerScrollbar: true,  // ture设置timepicker显示滑动条  false设置timepicker不显示滑动条
+                    todayButton: true,            // ture显示今天按钮  false不显示今天按钮   位置在datepicker左上角
+                    prevButton: true,              // ture显示上一月按钮  false不显示上一月按钮   位置在datepicker左上角
+                    nextButton: true,          // ture显示下一月按钮  false不显示下一月按钮   位置在datepicker又上角
+                    scrollMonth: true
+
+                });
+                $('#datetimepicker').datetimepicker({value:"{$activity['time']}",step:10});
+                $.datetimepicker.setLocale('ch')
+            </script>
+
+            <div class="weui_cell" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">红包金额:</div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$activity['money']}
+                </div>
+            </div>
+
+
+            <div class="weui_cell" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">展会详情:</div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$activity['content']}
+                </div>
+            </div>
+
+            <div class="weui_cell" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">展会协议:</div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$activity['agreement']}
+                </div>
+            </div>
+
+
+
+            <!--<p style="display:block;margin-left:152px" class="f-gray"><i class="icon icon-40 f20 "></i>Name words maximum 100</p>-->
+            <div class="form-group-col-2">
+                <div class="form-label"></div>
+
+            </div> 
+        </form>
+    </div>
+ <div node-type="module-history-list" class="module-history-list">
+     <span class="history-list-dir">All</span>
+     <span class="history-list-tips">All loaded, Total:{$return['total']} items</span>
+ </div>
+
+ <table class="weui-table weui-border-tb" id="cusTable">
+     <thead>
+     <tr>
+         <th><i class="weui_icon_circle"></i></th>
+         <th  style="border-left:2px solid #fff">姓名</th>
+         <th>图片</th>
+         <th>GPS</th>
+         <th>操作</th>
+     </tr>
+     </thead>
+
+     <tbody>
+     {if condition="($return['total'] > 0) "}
+     {volist name="return['rows']" id="vo"}
+     <tr>
+         <td><i class="weui_icon_circle"></i></td>
+         <td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+             {$vo.member_name}
+         </td>
+         <td><img style="width: 95px;height: 35px" src="{$vo.img}" alt=""></td>
+         <td>{$vo.GPS}</td>
+         <td>
+             {if condition="($vo['status']== 1)"}
+             <a href="{:url('info',array('id'=>$vo.id))}"><span class="icon icon-115" title="Edit">红包未发送</span></a>
+             {else /}
+             <a href="{:url('edit',array('id'=>$vo.id))}"><span class="icon icon-115" title="Edit">红包已发送</span></a>
+             {/if}
+         </td>
+     </tr>
+     {/volist}
+     {else /}
+     <div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+         <div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No record been found</p></div>
+     </div>
+     {/if}
+     </tbody>
+ </table>
+ <div class="pages">{$return['page']}</div>
+
+	
+<script src="__STATIC__/js/zepto.min.js"></script>	
+<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/jquery.hotkeys.js"></script>
+<script src="__STATIC__/plugins/twitter-bootstrap/js/bootstrap.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.js"></script>
+<link href="__STATIC__/plugins/wysiwyg/index.css" rel="stylesheet">
+<script src="__STATIC__/plugins/wysiwyg/bootstrap-wysiwyg.js"></script>	
+<script src="__STATIC__/js/parsley.js"></script>
+
+<script>
+
+//表单验证成功后ajax提交保存
+var is_validate =  false; //表单的验证情况 默认验证失败
+$('.parsley-validate').parsley().on('form:success', function() {
+	var is_validate = true;
+	document.getElementById("submit").disabled = false;
+	ajax_saveData(); //提交数据
+});
+
+//ajax提交保存数据
+var HTTP_REFERER = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+var ajax_saveData = function(){
+	$.ajax({
+        cache: false,
+        type: "POST",
+        url:"{:url('edit')}",
+        data:$('#myform').serialize(),// 你的formid
+        async: false,
+        success: function(data) {
+            if(data.code == 1 ){ //success
+				window.location.href = HTTP_REFERER;
+            }else{
+               alert(data.msg);
+            }
+        }
+    })
+}
+
+
+
+
+</script>
+
+
+<script>
+	//上传图片
+	$('#file_upload_img').on('change',function(){
+		var fd = new FormData();
+		fd.append('file', $('#file_upload_img')[0].files[0]); 
+	    $.ajax({
+			url: "{:url('common/upload')}",
+	        type: "POST", 
+	        processData: false,
+	        contentType: false,
+	        data: fd,
+	        success: function (result){
+				if(result){
+					$('#upload_img').val(result.url); 
+					$('#show_upload_img').attr("src",result.url);
+				}else{
+					alert('The system is busing please try again later, thanks!');
+				}
+			}	
+	    },'json'); 
+	});	
+ </script>
+
+

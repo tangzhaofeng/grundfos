@@ -1,0 +1,121 @@
+
+$font-size:14px;
+$baseColor:#11497b;
+
+
+.btn{
+    outline: none;
+    border: none;
+    display: block;
+    border-radius: 6px;
+    background: #FFFFFF;
+    width: 1.2rem;
+    height: 0.56rem;
+    line-height: 0.56rem;
+    text-align: center;
+    border: 1px solid $baseColor;
+    color: $baseColor;
+}
+
+
+
+
+//loading
+ .run-loader {
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  border: 3px solid #11497B;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: loader-rotate 1s linear infinite;
+}
+
+@keyframes loader-rotate {
+  0% {
+    transform: rotate(0); }
+  100% {
+    transform: rotate(360deg); } }               
+
+//字体处理
+@mixin font-dpr($font-size) {
+    font-size: $font-size + px;
+    [data-dpr="2"] & {
+        font-size: $font-size * 2 + px;
+    }
+    [data-dpr="3"] & {
+        font-size: $font-size * 3 + px;
+    }
+}
+
+// 按钮 
+@mixin btn($width: 85%,$marginTop:1.2rem,$marginBottom:0.266667rem){
+    width: $width;
+    height: 1.173333rem;
+    line-height: 1.173333rem;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+    background: $baseColor;
+    margin-top: $marginTop;
+    margin-bottom: $marginBottom;
+}
+
+//处理边框的一种方法
+@mixin afterLine($height: 0,$bgColor:#11497b,$opacity:1,$borderRedius:0,$position:'bottom'){
+    content:" ";
+    display: block;
+    position: absolute;   
+    left: 0;
+    width: 100%;
+    height: $height;
+    background-color: rgba($bgColor,$opacity);
+    border-radius: $borderRedius;
+    @if $position=='bottom' {
+        bottom: 0;
+    }
+    @else if $position=='top'{
+        top: 0;
+    }
+}
+
+
+//图片背景
+
+@mixin imgBg(){
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+}
+
+
+//定位父容器的100%
+@mixin parentPosition($top:0,$left:0,$right:0,$bottom:0,$bgColor:#fff,$zIndex:1){
+    position: absolute;
+    top: $top;
+    left: $left;
+    right: $right;
+    bottom: $bottom;
+    background: $bgColor;
+    z-index: $zIndex;
+}
+
+
+
+
+//字体溢出。。。 
+@mixin t-overflow($line:1) {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+//table居中
+@mixin table-center {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}

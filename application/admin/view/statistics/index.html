@@ -1,0 +1,211 @@
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">  <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+        <style>
+        	.customInfo{
+        		width: 100%;
+        		display: flex;
+        		flex-wrap:wrap;
+        		justify-content:space-around;
+        		/*justify-content:space-around;*/
+        	}
+        	.customInfo .content{
+        		width:260px;
+        		height: 120px;
+        	/*	margin-left: 6%;*/
+        		margin-top: 30px;
+        		margin-bottom: 30px;
+        		box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+        		border-radius: 3px;
+        		position: relative;
+        	}
+        	.customInfo .content .wrapper{
+        		position: absolute;
+        		top:50%;
+        		left: 50%;
+        		transform: translate(-50%,-50%);
+        	}
+        	.customInfo .content:first-child{
+        		margin-left: 0;
+        	}
+        	.customInfo .content.ronghu{
+        		background: #FFFFFF;
+        	}
+        	.customInfo .content.kehu{
+        		background: #7266ba;
+        	}
+        	.customInfo .content.shu{
+        		background: #03a9f4;
+        	}
+        	.customInfo .content span{
+        		display: block;
+        		text-align: center;       		
+        	}       	
+        	.customInfo .content span.name{
+        		margin-top: 10px;
+        		font-size: 14px;
+        	}
+        	.customInfo .content span.num{
+        		font-size: 36px;
+        	}
+        	
+        	.customInfo .feedback{
+        		background: #00b38a;
+        	}
+        	.customInfo .feedback .wrapper-1{
+        		position: absolute;
+        		top: 50%;
+        		left: 6%;
+        		transform: translateY(-50%);
+        	}
+        	.customInfo .feedback h4{
+        		color: #FFFFFF;
+        		font-size: 14px;
+        		padding: 0;
+        		margin-top: 1px;
+        		margin-bottom: 3px;
+        	}
+        	.customInfo .feedback p{
+        		margin: 0;
+        		padding: 0;
+        		font-size: 18px;
+        		color: #FFFFFF;
+        		margin-top: 6px;
+        	}
+        	.customInfo .feedback  p em{
+        		display: inline-block;
+        		width:50px;
+        		text-align: right;
+        		vertical-align: middle;
+        		font-style: normal;
+        	}
+        	.customInfo .feedback  p b{
+        		font-weight: normal;
+        		display: inline;
+        		width: calc(100% - 80px);
+        		vertical-align: middle;
+        		text-align:left;
+				padding-left: 50px;
+				box-sizing: border-box;
+				
+        	}
+        	@media only screen and (max-width: 1100px){
+        		.customInfo .content{
+	        		width:200px;
+	        		height: 120px;
+	        		/*border:1px solid red;*/
+	        		margin-top: 30px;
+	        		margin-bottom: 30px;
+	        	}
+        	}
+        	
+        </style>
+    </head>
+
+    <body>
+        <div id="container" style="min-width:400px;height:400px"></div>
+        <div class="customInfo">
+        	<div class="content ronghu">
+        		<div class="wrapper">
+        			<span class="num" style="color:#23b7e5;">{$data.userCount}</span>
+        			<span class="name" style="color:#98a6ad;">Users</span>
+        		</div>       		
+        	</div>
+        	<div class="content kehu">
+        		<div class="wrapper">
+        			<span class="num" style="color: #f4f3f9;">{$data.customerCount}</span>
+        			<span class="name" style="color: #d6d3e6;">Customers</span>
+        		</div>
+        		
+        	</div>
+        	<div class="content shu">
+        		<div class="wrapper">
+        			<span class="num" style="color: #FFFFFF;">{$data.usercertCount}</span>
+        			<span class="name" style="color: #b0e1f1;">Acquired Certificates</span>
+        		</div>
+        		
+        	</div>
+        	<div class="content feedback">
+        		<div class="wrapper-1">       			
+        			<p><em>Yes:</em><b>{$data.feedback.yes}</b></p>
+        			<p><em>Average:</em><b>{$data.feedback.average}</b></p>
+        			<p><em>No:</em><b>{$data.feedback.no}</b></p>
+        			<h4>Feedback</h4>
+        		</div>
+        	</div>
+        </div>
+        <script>
+            // JS 代码 
+			/**
+  * Highcharts 在 4.2.0 开始已经不依赖 jQuery 了，直接用其构造函数既可创建图表
+ **/
+			var chart = new Highcharts.Chart('container', {
+				chart: {
+			            //type: 'area'  // column , pie , area
+			     },
+			    title: {
+			        text: 'Data statistics',
+			        x: -20
+			    },
+			    subtitle: {
+			        text: 'Data sources: https://duo-uat.kuehne-nagel.com/ (Last 60 days)',
+			        x: -20
+			    },
+			    xAxis: {
+			        categories: {:json_encode($cnzz.day)}
+			    },
+			    yAxis: {
+			        title: {
+			            text: 'Passengers '
+			        },
+			        plotLines: [{
+			            value: 0,
+			            width: 1,
+			            color: '#c00'
+			        }]
+			    },
+			    tooltip: {
+			        valueSuffix: 'Passengers'
+			    },
+			    legend: {
+			        layout: 'vertical',
+			        align: 'right',
+			        verticalAlign: 'middle',
+			        borderWidth: 0
+			    },
+			    series: {:json_encode($cnzz.pvuv)}
+			});
+
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+​

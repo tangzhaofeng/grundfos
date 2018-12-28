@@ -1,0 +1,96 @@
+<!doctype html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<style>
+select {min-width: 20px !important;border-radius: 3px;}
+</style>
+<body>
+	<!--header start -->
+	{include file="public/header"}
+	<!--header end-->
+	<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input type="text" style="display: none" value="{$type}" name="type">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('add',['bu_id'=>input('param.bu_id')])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>Add</a>
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips">All loaded, Total:{$return['total']} items</span>
+	</div>
+
+
+
+
+	<table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+		<tr>
+			<th><i class="weui_icon_circle"></i></th>
+			<th  style="border-left:2px solid #fff">id</th>
+			<th>商品名称</th>
+			<th>封面图</th>
+			<th>消费积分</th>
+			<th>数量</th>
+			<th>是否需要地址</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		{if condition="($return['total'] > 0) "}
+		{volist name="return['rows']" id="vo"}
+		<tr>
+			<td><i class="weui_icon_circle"></i></td>
+			<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+				{$vo.id}
+			</td>
+			<td>{$vo['name']}</td>
+			<td><img src="{$vo.cover}" alt=""></td>
+			<td>{$vo.integral}</td>
+			<td>{$vo.number}</td>
+			<td>{$vo.is_city == 1 ? '需要':'不需要'}</td>
+			<td>{$vo.status == 1 ?'正常':'禁用'}</td>
+			<td>
+				<a href="{:url('edit',array('id'=>$vo.id))}"><span class="icon icon-115" title="Edit">修改</span></a>
+				<a href="{:url('delete',array('id'=>$vo.id))}" id="delete" ><span class="icon icon-23"  title="delete">删除</span></a>
+			</td>
+		</tr>
+		{/volist}
+		{else /}
+		<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+			<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No record been found</p></div>
+		</div>
+		{/if}
+		</tbody>
+	</table>
+	<div class="pages">{$return['page']}</div>
+	<!--footer start -->
+	{include file="footer"}
+	<!--footer end-->
+	
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,231 @@
+
+{include file="public/header"}
+<link href="__STATIC__/admin/css/yqq/singer.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/yqq/layout0115.css" rel="stylesheet">
+
+<link rel="stylesheet" href="__STATIC__/admin/css/yqq/mv.css"/>
+<style>
+.weui_icon_success{position: absolute;top:0;right: 0}
+.weui_icon_success:before{color:#c00 !important}
+.mv_list__item{width: 20%!important}
+.submit{padding: 0 15px;border-radius: 5px;float: right;color: #18b4ed;border: 1px solid #18b4ed;}
+</style>
+
+
+<div class="main" style="padding: 0 6%">
+		<div class="weui_dialog_hd">
+			<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+			<span class="weui_dialog_title">Create course </span>
+			<a href="javascript:;" class="singer_tag__item submit">Edit</a>
+		</div>
+
+        <div class="mod_singer_tag">
+            <div class="singer_tag__list language">
+                <a href="javascript:;" class="singer_tag__item singer_tag__item--all" data-key="all" hidefocus="">Language :</a>
+                <?php $language = getLanguage(-1); ?>
+                {volist name="language" id="vo"  key="k" }
+                       <a href="javascript:;" class="singer_tag__item {if condition="$k eq 1"} singer_tag__item--select {/if}" data-key="{$k}">{$vo}</a> 
+                {/volist}
+            </div>
+            <div class="singer_tag__list action">
+                <a href="javascript:;" class="singer_tag__item singer_tag__item--all" hidefocus="">Content :</a>
+                <a href="javascript:;" class="singer_tag__item singer_tag__item--select" data-key="v" url="{:url('video/index')}" hidefocus="">Video</a>
+                <a href="javascript:;" class="singer_tag__item" url="{:url('documents/index')}" data-key="d" hidefocus="">Documents</a>
+                <a href="javascript:;" class="singer_tag__item" url="{:url('faq/index')}" data-key="f" hidefocus="">FAQs</a>
+                <a href="javascript:;" class="singer_tag__item" url="{:url('Webinars/index')}" data-key="w" hidefocus="">Webinars</a>
+            </div>
+        </div>
+	
+		<div class="mod_part_detail">
+			<div class="mod_mv">
+				<ul class="mv_list__list" id="mv_list">
+				
+				<ul>	
+			</div>	
+	   </div>
+
+	   <div class="pages"></div>  
+</div>
+
+
+    
+
+
+<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>
+<script>
+
+ var AjaxPage = function(page){
+	$.ajax({
+		url: url,
+		type:'post',
+		dataType:'json',
+		data: {page:page,language:language},
+		success:function(ret){
+			var mv_list = "";
+			$.each(ret.rows.data,function(i,item){
+				//检查后台返回选中
+				var is_booking = in_array(item.id, getTypeArray())?'weui_icon_success':'';
+				var poster = item.poster?item.poster:"__STATIC__/images/icon/default_img.png";
+				mv_list+='<li class="mv_list__item" data="'+item.id+'">'
+							+'<div class="mv_list__item_box" style="visibility: visible;">'
+								+'<a href="javascript:;"  class="mv_list__cover mod_cover js_mv"  title="'+item.title+'" data-id="" hidefocus="true">'
+								+'<img class="mv_list__pic" src="'+poster+'">'
+								+'<i class="'+is_booking+'"></i>'
+								+'</a>'
+								+'<h3 class="mv_list__title"><a href="" class="js_mv" title="">'+item.title+'</a></h3>'
+									+'<div class="mv_list__singer">'
+									+'<a href="javascript:;" class="js_singer"  title="customer"> customer '+item.personal+' </a>'
+								+'</div>'
+								+'<div class="mv_list__info"><span class="mv_list__listen"><span class="icon icon-64"></span> '+item.views+'</span>'+item.create_time+'</div>'
+								+'<p class="mv_list__desc"></p>'
+							+'</div>'
+						+'</li>';
+			});
+	
+			$("#mv_list").html(mv_list);
+			$(".pages").html(ret.page);
+		}
+	});
+}
+
+
+$(function(){
+	AjaxPage(1);
+})
+
+//切换语言
+var language = 1; //默认语言
+var action = 'v'; //默认action
+var url = "{:url('video/index')}";  //默认action
+$(".language .singer_tag__item").click(function(){
+	if($(this).attr("data-key")>=1){
+		language = $(this).attr("data-key");
+		$(this).siblings().removeClass("singer_tag__item--select");
+		$(this).addClass("singer_tag__item--select");
+		//ajax
+		AjaxPage(1);
+	}
+})
+
+$(".action .singer_tag__item").click(function(){
+	if($(this).attr("url")){
+		url = $(this).attr("url");
+		action = $(this).attr("data-key");
+		$(this).siblings().removeClass("singer_tag__item--select");
+		$(this).addClass("singer_tag__item--select");
+		AjaxPage(1);
+	}
+})
+
+//选中的内容
+ $(document).on("click","#mv_list li",function(){
+	var weui_icon_success = $(this).find("i").hasClass("weui_icon_success");
+	var element = $(this).attr('data');
+	if(weui_icon_success){
+		$(this).find("i").removeClass("weui_icon_success");
+		//删除元素  
+		OperationData("remove",element);
+	}else{
+		$(this).find("i").addClass("weui_icon_success");
+		//添加
+		OperationData("push",element);
+	}
+	//console.log(courseCode);	
+});
+
+//var操作数据
+var OperationData = function(operation,element){
+	switch(action){
+		case "v":
+			(operation=='remove')?(courseCode.video).remove(element) : (courseCode.video).push(element);
+			break;
+		case "d":
+			(operation=='remove')?(courseCode.documents).remove(element) : (courseCode.documents).push(element);
+			break;
+		case "f":
+			(operation=='remove')?(courseCode.faq).remove(element) : (courseCode.faq).push(element);
+			break;
+		case "w":
+			(operation=='remove')?(courseCode.webinars).remove(element) : (courseCode.webinars).push(element);
+			break;
+	}
+} 
+
+
+ var courseCode = {$courseCode};
+var getTypeArray = function(){
+	if(action == "v"){
+		if(courseCode.video==undefined){
+			courseCode.video = [];
+		}
+		return courseCode.video
+	}else if(action == "d"){
+		if(courseCode.documents==undefined){
+			courseCode.documents = [];
+		}
+		return courseCode.documents
+	}else if(action == "f"){
+		if(courseCode.faq==undefined){
+			courseCode.faq = [];
+		}
+		return courseCode.faq
+	}else if(action == "w"){
+		if(courseCode.webinars==undefined){
+			courseCode.webinars = [];
+		}
+		return courseCode.webinars
+	}
+}
+Array.prototype.indexOf = function(val) {
+	for (var i = 0; i < this.length; i++) {
+		if (this[i] == val) return i;
+	}
+	return -1;
+};
+Array.prototype.remove = function(val) {
+	var index = this.indexOf(val);
+	if (index > -1) {
+		this.splice(index, 1);
+	}
+};
+
+$(".submit").click(function(){
+	saveCourse();
+})
+var saveCourse = function(){
+	var bookingCourse = bookCourse();
+	$.post("{:url('edit')}",{bookingCourse:bookingCourse,id:"{:input('param.id')}"},function(ret){
+		if(ret.code == 1 ){ //success
+			window.location.href = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+		} else {
+			alert(ret.msg);
+		}
+	});
+}
+
+var bookCourse= function(){ 
+	var course = '';
+	if(courseCode.video!=undefined){
+		$.each(courseCode.video,function(index,item){
+			course+='v'+item+",";
+		});
+	}
+	if(courseCode.faq!=undefined){
+		$.each(courseCode.faq,function(index,item){
+			course+='f'+item+",";
+		});
+	}
+	if(courseCode.webinars!=undefined){
+		$.each(courseCode.webinars,function(index,item){
+			course+='w'+item+",";
+		});
+	}
+	if(courseCode.documents!=undefined){
+		$.each(courseCode.documents,function(index,item){
+			course+='d'+item+",";
+		});
+	}
+	return course;
+}
+function in_array(needle,haystack,argStrict){var key="",strict=!!argStrict;if(strict){for(key in haystack){if(haystack[key]===needle){return true}}}else{for(key in haystack){if(haystack[key]==needle){return true}}}return false};
+</script>

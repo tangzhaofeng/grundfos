@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta name=”format-detection” content=”telephone=no” /> 
+  <title>apk下载</title>
+  <link rel="stylesheet" href="./reset.css">
+  <link rel="stylesheet" href="./apk.css">
+  <script type="text/javascript">
+    ;(function(win,lib){var doc=win.document;var docEl=doc.documentElement;var metaEl=doc.querySelector('meta[name="viewport"]');var flexibleEl=doc.querySelector('meta[name="flexible"]');var dpr=0;var scale=0;var tid;var flexible=lib.flexible||(lib.flexible={});if(metaEl){console.warn('将根据已有的meta标签来设置缩放比例');var match=metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);if(match){scale=parseFloat(match[1]);dpr=parseInt(1/scale)}}else if(flexibleEl){var content=flexibleEl.getAttribute('content');if(content){var initialDpr=content.match(/initial\-dpr=([\d\.]+)/);var maximumDpr=content.match(/maximum\-dpr=([\d\.]+)/);if(initialDpr){dpr=parseFloat(initialDpr[1]);scale=parseFloat((1/dpr).toFixed(2))}if(maximumDpr){dpr=parseFloat(maximumDpr[1]);scale=parseFloat((1/dpr).toFixed(2))}}}if(!dpr&&!scale){var isAndroid=win.navigator.appVersion.match(/android/gi);var isIPhone=win.navigator.appVersion.match(/iphone/gi);var devicePixelRatio=win.devicePixelRatio;if(isIPhone){if(devicePixelRatio>=3&&(!dpr||dpr>=3)){dpr=3}else if(devicePixelRatio>=2&&(!dpr||dpr>=2)){dpr=2}else{dpr=1}}else{dpr=1}scale=1/dpr}docEl.setAttribute('data-dpr',dpr);if(!metaEl){metaEl=doc.createElement('meta');metaEl.setAttribute('name','viewport');metaEl.setAttribute('content','initial-scale='+scale+', maximum-scale='+scale+', minimum-scale='+scale+', user-scalable=no');if(docEl.firstElementChild){docEl.firstElementChild.appendChild(metaEl)}else{var wrap=doc.createElement('div');wrap.appendChild(metaEl);doc.write(wrap.innerHTML)}}function refreshRem(){var width=docEl.getBoundingClientRect().width;var rem=width/10;if(window.__max_html_width_){rem=Math.min(__max_html_width_,rem)}docEl.style.fontSize=rem+'px';flexible.rem=win.rem=rem}win.addEventListener('resize',function(){clearTimeout(tid);tid=setTimeout(refreshRem,300)},false);win.addEventListener('pageshow',function(e){if(e.persisted){clearTimeout(tid);tid=setTimeout(refreshRem,300)}},false);if(doc.readyState==='complete'){doc.body.style.fontSize=12*dpr+'px'}else{doc.addEventListener('DOMContentLoaded',function(e){doc.body.style.fontSize=12*dpr+'px'},false)}refreshRem();flexible.dpr=win.dpr=dpr;flexible.refreshRem=refreshRem;flexible.rem2px=function(d){var val=parseFloat(d)*this.rem;if(typeof d==='string'&&d.match(/rem$/)){val+='px'}return val};flexible.px2rem=function(d){var val=parseFloat(d)/this.rem;if(typeof d==='string'&&d.match(/px$/)){val+='rem'}return val}})(window,window['lib']||(window['lib']={}));
+  </script>
+</head>
+<body>
+  <div class="apk-page">
+    <div class="mask"></div>
+    <div class="title"></div>
+    <div class="logo">
+      <img src="./images/logo.png">
+    </div>
+    <div class="button">
+      <a id="downLoad" href="http://www.juplus.cn/glf/gelanfu-view/apk/grundfos_v1.0.4.apk">安卓下载</a>
+    </div>
+    <div class="time">
+      8月15日——8月16日 苏州太湖万豪酒店
+    </div>
+  </div>
+
+  <script>
+    var is_weixin = (function(){return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1})();
+
+    var apk = document.querySelector('#downLoad');
+    var mask = document.querySelector('.mask');
+
+    apk.addEventListener('click', function(e) {
+      if (is_weixin) {
+        e.preventDefault();
+        mask.style.display = 'block';
+      } else {
+        return true
+      }
+    });
+  </script>
+</body>
+</html>

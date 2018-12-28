@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/QcloudApi/src" />
+      <path value="$PROJECT_DIR$/vendor/CCP_REST_DEMO_PHP_v27r1/SDK" />
+      <path value="$PROJECT_DIR$/vendor/LaneWeChat/core" />
+      <path value="$PROJECT_DIR$/vendor/QcloudApi/Common" />
+      <path value="$PROJECT_DIR$/vendor/PHPExcel/PHPExcel" />
+      <path value="$PROJECT_DIR$/vendor/LaneWeChat.bak/core" />
+      <path value="$PROJECT_DIR$/vendor/WeChatPay/cert" />
+      <path value="$PROJECT_DIR$/vendor/aliyun-dysms-php-sdk/msg_sdk" />
+      <path value="$PROJECT_DIR$/vendor/Classes/PHPExcel" />
+      <path value="$PROJECT_DIR$/vendor/aliyun-dysms-php-sdk/api_sdk" />
+      <path value="$PROJECT_DIR$/vendor/CCP_REST_DEMO_PHP_v27r1/Demo" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="5.4.0" />
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" />
+    </phpunit_settings>
+  </component>
+</project>

@@ -1,0 +1,164 @@
+
+        {include file="public/header"}
+        <div class="head">
+            <style>
+            .head {
+                position: relative;
+                width: 100%;
+                height: 5.85em;
+                margin-top: 1em;
+                background-size: 100% 100%;
+            }
+            .head-img {
+                position: absolute;
+                top: 1.015em;
+                left: 1.62em;
+                width: 3.82em;
+                height: 3.82em;
+                padding: 0.08em;
+                border-radius: 1.95em;
+                background-color: #fff;
+            }
+            .head-img img {
+                width: 100%;
+          
+            }
+            .head-dsb {
+                position: absolute;
+                top: 2.08em;
+                left: 7.78em;
+            }
+            .head-dsb p {
+    font-size: 0.9em;
+   
+}
+.weui_tab_nav {
+    width: 250px;
+    top: 10px;
+    position: absolute;
+    left: 10px;
+
+}
+            </style>
+			<div class="head-img" style="width: 7.82em;">
+				<img src="{$webinar.poster}" />
+			</div>
+			<div class="head-dsb" style="left: 10.78em;">
+				<p class="dsb-name">-- {$webinar.title}</p>
+				<p class="dsb-id">
+					<!--Date:  {$webinar.create_time}-->
+				</p>
+			</div>
+		</div>
+       
+
+    <div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('index',['export'=>true,'webinarId'=>$webinar.id])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-2"></i>Export</a>
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips"> All loaded, Total: {$return['total']} items</span>
+	</div>
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+				<th><i class="weui_icon_circle"></i></th>
+				<!--
+				<th style="border-left:2px solid #fff">Cover</th>
+				-->
+				<th>Name</th>
+				<th>Company</th>
+				<th>Position</th>
+				<th>Email</th>
+				<th>Phone</th>
+				<th>CreateTime</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+
+		<tbody>	
+			{if condition="($return['total'] > 0) "} 
+				{volist name="return['rows']" id="vo"}
+					<tr>
+						<td><i class="weui_icon_circle"></i></td>
+						<!--
+						<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+							<img src="__STATIC__/images/avator/user.png" style="width: 44px;">
+						</td>-->
+						<td> {$vo.name}</td>
+						<td> {$vo.company}</td>
+						<td> {$vo.position}</td>
+						<td> {$vo.email}</td>
+						<td> {$vo.phone}</td>
+						<td>{$vo.createTime}</td>
+						<td>
+							<a id="delete" href="{:url('delete',array('id'=>$vo.id))}"><span class="icon icon-23" title="Delete">Delete</span></a>
+						</td>
+					</tr>  
+				{/volist}
+			{else /}	
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No recored been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>		
+	</table>
+	
+	<div class="pages">{$return['page']}</div>
+	<!--footer start -->
+	{include file="public/footer"}
+	<!--footer end-->
+
+<div class="weui_mask weui_actions_mask "></div>
+<div class="weui_actionsheet" id="weui_actionsheet">
+    <div class="weui_actionsheet_menu"></div>
+    <div class="weui_actionsheet_action">
+        <iframe name="childFrame" src=""style="width:100%;height:50%;border:none"></iframe>
+    </div>
+</div>
+
+<script src="__STATIC__/js/zepto.min.js"></script> 
+<script>
+    $(".weui-header-left,.icon-95").on("click",function(){
+        parent.closePopup();
+    }) 
+
+    $("a#act").on("click",function(){
+           $(".weui_mask").show().addClass("weui_mask_visible");  
+           $("#weui_actionsheet").show().addClass("weui_actionsheet_toggle"); 
+           $(".weui_mask,.weui_actionsheet").removeAttr("style"); 
+		   $("iframe").attr("src", $(this).attr("data-url")); 
+    })
+	var close_mask = function(){
+		 $(".weui_mask").removeClass("weui_mask_visible").hide();  
+         $("#weui_actionsheet").removeClass("weui_actionsheet_toggle").hide(); 
+        $(".weui_mask,.weui_actionsheet").removeAttr("style");  
+	}
+    $(".weui_mask").on("click",function(){
+          close_mask();
+    })
+	var close_mask_and_reflash = function(){
+		 close_mask();
+		 setTimeout(function () {
+           window.location.href=window.location.href
+       }, 1000);
+		 
+	}
+</script>
+

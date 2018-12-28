@@ -1,0 +1,132 @@
+{include file="public/header"}
+<style >
+	.img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+	.img_wrap { overflow: hidden;height: 110px;width: 180px;position: relative;}
+	.img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+	.form-group-col-2 .form-cont{padding-left: 1px !important;}
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+<!--添加或者修改的弹框-->
+<div class="content">
+	<div class="weui_dialog_hd">
+		<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+		<span class="weui_dialog_title">添加/减去积分</span>
+	</div>
+
+
+	<form id="myform" class="parsley-validate " onsubmit="return false" method="post" id="form" data-parsley-validate >
+		<div class="weui_cell" style="margin-top: 30px;">
+			<div class="weui_cell_hd"><label class="weui_label">用户名：</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<div class="fs-wrap Personal_role"  >
+					<input class="form-boxed form-control" type="text" name="name" value="<?php if (isset($param['name'])){echo $param['name'];} else echo "未知用户"; ?>" data-parsley-trigger="change" required="required" disabled="disabled">
+				</div>
+			</div>
+		</div>
+
+		<input type="hidden" name="member_id" value="{$param['member_id']}" id="member_id">
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label">积分数：</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<div class="fs-wrap Personal_role"  >
+					<input id="sorce" class="form-boxed form-control" type="text" value="" placeholder="积分数"  data-parsley-trigger="change" required="required">
+				</div>
+			</div>
+		</div>
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label">操作理由：</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<div class="fs-wrap Personal_role"  >
+					<input id="season" class="form-boxed form-control" type="text" value="" placeholder="例如：参加获取"  data-parsley-trigger="change" >
+				</div>
+			</div>
+		</div>
+
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label">操作</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<div class="fs-wrap Personal_role">
+					<label class="radio-inline">
+						<input type="radio" name="status" checked="checked" id="inlineRadio1" value="1"> 添加
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="status" id="inlineRadio2" value="2"> 减去
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group-col-2">
+			<div class="form-label"></div>
+			<div class="form-cont">
+				<input type="submit" class="btn btn-primary" id="submit" value="submit" style="margin: 30px 0;margin-left: 1px;"/>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="mask" style="display:none">
+	<div class="weui_mask weui_mask_visible" id="overlay"></div>
+	<style type="text/css">.weui_dialog_ft a {display: block !important;width: 50% !important;float: left;}</style>
+	<div class="weui_dialog weui_dialog_visible" id="easyDialogBox">
+		<div class="weui_dialog_hd"><strong class="weui_dialog_title">tip</strong></div>
+		<div class="weui_dialog_bd"><i class="weui_icon_success"></i> <span class="my_tip">Created english document success</span></div>
+		<div class="weui_dialog_ft all"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog primary" style="width: 100% !important;">Back</a></div>
+		<div class="weui_dialog_ft only"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog default">Back</a><a href="javascript:;" id="easyDialogYesBtn" class="weui_btn_dialog primary">Create English document</a></div>
+	</div>
+</div>
+
+<script src="__STATIC__/js/zepto.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/jquery.hotkeys.js"></script>
+<script src="__STATIC__/plugins/twitter-bootstrap/js/bootstrap.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.js"></script>
+<link href="__STATIC__/plugins/wysiwyg/index.css" rel="stylesheet">
+<script src="__STATIC__/plugins/wysiwyg/bootstrap-wysiwyg.js"></script>
+<script src="__STATIC__/js/parsley.js"></script>
+
+<script>
+   $('#submit').on('click', function(){
+	   if (($('#season').val().length > 1) && $('#member_id').val() && $('#sorce').val()) {
+			$.post('/glf/admin/member/addSorce', {
+					member_id: $('#member_id').val(),
+					sorce: $('#sorce').val(),
+					season: $('#season').val(),
+					deal: $('input[name="status"]:checked').val()
+			},function(result) {
+				console.log(result)
+				if (result.code == 1){
+						alert("操作成功！")
+						window.history.go(-1)
+				} else {
+						alert("操作失败！"+"\n原因："+result.msg)
+				}
+			})
+		}
+   })
+</script>
+
+<style type="text/css">
+	body {font: 13px Arial, Helvetica, Sans-serif;}
+	.uploadifive-button {float: left;margin-right: 10px;}
+	#queue {position: absolute;top: 0; width: 100%;}
+	.layui-upload-drag {position: relative; border: 1px dashed #e2e2e2;background-color: #fff;text-align: center; cursor: pointer;color: #999;}
+	.layui-upload-drag input{height:100%;width:100%}
+	.layui-upload-drag i{font-size: 35px;color: #009688;}
+	.layui-icon { font-size: 50px;color: #009688;}
+	.layui-icon {font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
+	}.uploadifive-queue-item{height:100%;}
+	.uploadifive-button{opacity: 0;position: absolute;top: 0;height: 100%;}
+</style>
+
+
+
+
+
+

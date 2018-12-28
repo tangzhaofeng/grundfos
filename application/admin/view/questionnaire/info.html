@@ -1,0 +1,229 @@
+ {include file="public/header"}
+ <style >
+ .img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+.img_wrap { overflow: hidden;height: 110px;width: 180px;position: relative;}
+.img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+.form-group-col-2 .form-cont{padding-left: 1px !important;}
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+<!--添加或者修改的弹框-->
+    <div class="content" id="on">
+        <div class="weui_dialog_hd">
+			<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+            <span class="weui_dialog_title">问卷详情</span>
+        </div>
+
+
+		<div class="container" style="margin-top: 30px">
+			<div class="weui_cell_hd">{$zhu['title']}</div>
+		</div>
+
+		<script>
+			console.log('{$zhu["id"]}')
+			$.ajax({
+				url:'{:url("getinfo")}',
+				data:{
+				    'id':'{$zhu["id"]}'
+				},
+                async:false,
+				success:function (data) {
+					console.log(data)
+					addpen(data)
+                }
+			})
+			
+			function addpen(data) {
+				for (var i=0;i < data.length;i++){
+                    if (data[i]['type'] != 3){
+					$('#on').append('\t<div class="container" style="margin-top: 50px">\n' +
+                        '\t\t\t<div class="weui_cell_hd">'+data[i]['info_name']+'</div>\n' +
+                        '\t\t\t<div id="echartsPie'+i+'" style="width: 600px;height:400px;"></div>\n' +
+                        '\t\t</div>');
+                        echs(i,data[i]['info'])
+					}else{
+                        var id = data[i]["id"];
+                        console.log(id)
+                        $('#on').append('\t<div class="container" style="margin-top: 50px">\n' +
+                            '\t\t\t<div class="weui_cell_hd">'+data[i]['info_name']+'</div>\n' +
+                            '\t\t\t<a href="{:url("text",array("id"=>$id))}"><button style="margin-top: 20px;margin-left: 10px" type="button" class="btn btn-primary">查看全部</button></a>\n' +
+                            '\t\t</div>');
+					}
+
+				}
+
+            }
+			function echs(a,list){
+                var echartsPie;
+
+                var scaleData = []
+                for (var l=0;l<list.length;l++){
+                    scaleData[l] = {
+                        'name':list[l]['content'],
+						'value':list[l]['value']
+					 }
+				}
+                console.log(scaleData)
+                var rich = {
+                    white: {
+                        color: '#333333',
+                        align: 'center',
+                        padding: [5, 0]
+                    }
+                };
+                var placeHolderStyle = {
+                    normal: {
+                        label: {
+                            show: false
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        color: 'rgba(0, 0, 0, 0)',
+                        borderColor: 'rgba(0, 0, 0, 0)',
+                        borderWidth: 0
+                    }
+                };
+                var data = [];
+                for (var i = 0; i < scaleData.length; i++) {
+                    console.log(scaleData[i].name)
+                    data.push({
+                        value: scaleData[i].value,
+                        name: scaleData[i].name,
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 5,
+                                shadowBlur: 30,
+                                borderColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
+                                    offset: 0,
+                                    color: '#7777eb'
+                                }, {
+                                    offset: 1,
+                                    color: '#70ffac'
+                                }]),
+                                shadowColor: 'rgba(142, 152, 241, 0.6)'
+                            }
+                        }
+                    }, {
+                        value: 4,
+                        name: '',
+                        itemStyle: placeHolderStyle
+                    });
+                }
+                var seriesObj = [{
+                    name: '',
+                    type: 'pie',
+                    clockWise: false,
+                    radius: [95, 100],
+                    hoverAnimation: false,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'outside',
+                                color: '#7777eb',
+                                formatter: function(params) {
+                                    var percent = 0;
+                                    var total = 0;
+                                    for (var i = 0; i < scaleData.length; i++) {
+                                        total += scaleData[i].value;
+                                    }
+                                    percent = ((params.value / total) * 100).toFixed(0);
+                                    if(params.name !== '') {
+                                        return params.name + '\n{white|' + '占比' + percent + '%}';
+                                    }else {
+                                        return '';
+                                    }
+                                },
+                                rich: rich
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        }
+                    },
+                    data: data
+                }];
+                option = {
+                    backgroundColor: '#fff',
+                    tooltip: {
+                        show: false
+                    },
+                    legend: {
+                        show: false
+                    },
+                    toolbox: {
+                        show: false
+                    },
+                    series: seriesObj
+                }
+                echartsPie = echarts.init(document.getElementById('echartsPie'+a));
+                echartsPie.setOption(option);
+			}
+		</script>
+
+	</div>
+		</div>
+	<div class="mask" style="display:none">
+		<div class="weui_mask weui_mask_visible" id="overlay"></div>
+		<style type="text/css">.weui_dialog_ft a {display: block !important;width: 50% !important;float: left;}</style>
+		<div class="weui_dialog weui_dialog_visible" id="easyDialogBox">
+			<div class="weui_dialog_hd"><strong class="weui_dialog_title">tip</strong></div>
+			<div class="weui_dialog_bd"><i class="weui_icon_success"></i> <span class="my_tip">Created english document success</span></div>
+			<div class="weui_dialog_ft all"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog primary" style="width: 100% !important;">Back</a></div>
+			<div class="weui_dialog_ft only"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog default">Back</a><a href="javascript:;" id="easyDialogYesBtn" class="weui_btn_dialog primary">Create English document</a></div>
+		</div>
+	</div>
+
+<script src="__STATIC__/js/parsley.js"></script>
+
+<script>
+
+//表单验证成功后ajax提交保存
+var is_validate =  false; //表单的验证情况 默认验证失败
+$('.parsley-validate').parsley().on('form:success', function() {
+	var is_validate = true;
+	document.getElementById("submit").disabled = false;
+	$("#describe").val( $("#editor").html() );
+	if(submited_language=='all'){
+		alert("Both english document and chinese document had been submited, thanks!"); return false;
+	}
+	ajax_saveData(); //提交数据
+});
+
+var submited_language = null;
+//ajax提交保存数据
+var HTTP_REFERER = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+var ajax_saveData = function(){
+	$.ajax({
+        cache: false,
+        type: "POST",
+        url:"{:url('edit')}",
+        data:$('#myform').serialize(),// 你的formid
+        async: false,
+        success: function(data) {
+            if(data.code == 1 ){ //success
+				window.location.href = HTTP_REFERER;
+            }else{
+               alert(data.msg);
+            }
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

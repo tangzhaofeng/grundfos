@@ -1,0 +1,152 @@
+<!doctype html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<body>
+	<!--header start -->
+	{include file="public/header"}
+	<!--header end-->
+	
+		<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			<div class="list-grid-switch list-switched-on">
+				<a node-type="list-switch" style="display: none;" class="list-switch" href="javascript:void(0)">
+				<span class="icon icon-89"></span>
+				</a>
+				<a node-type="grid-switch" class="grid-switch" href="javascript:void(0)"><span class="icon icon-93"></span></a>
+			</div>
+			
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('add')}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>Add</a>
+				<a href="{:url('index',['export'=>true])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-2"></i>Export</a>
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips">All loaded, Total:{$return['total']} items</span>
+	</div>
+
+
+
+
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+				<th><i class="weui_icon_circle"></i></th>
+				<th  style="border-left:2px solid #fff">Cover</th>
+				<th>Customer code</th>
+				<th>Customer name</th>
+				<th>Videos QTY</th>
+				<th>FAQs QTY</th>
+				<th>Documents QTY</th>
+				<th>Webinars QTY</th>
+				<th>Create time</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+
+		<tbody>	
+			{if condition="($return['total'] > 0) "} 
+				{volist name="return['rows']" id="vo"}
+					<tr>
+						<td><i class="weui_icon_circle"></i></td>
+						<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+							<img src="{$vo.poster?$vo.poster:' __STATIC__/images/avator/user.png'}" style="width: 50px"/> 
+						</td>
+						<td>{$vo.customerCode}</td>
+						<td style="width:40%">{$vo.customerName}</td>
+						<td>{$vo.videoCount}</td>
+						<td>{$vo.faqCount}</td>
+						<td>{$vo.documentsCount}</td>
+						<td>{$vo.webinarsCount}</td>
+						<td>{$vo.createTime}</td>
+						<td>
+							<a href="javascript:" target="childFrame" class="open-popup" data-target="#popup" data-url="{:url('cert/index',array('id'=>$vo.customerCode,'type'=>0))}"> <span class="icon icon-2"></span>Details</span></a>
+							<a href="{:url('edit',array('id'=>$vo.customerCode))}"><span class="icon icon-115" title="Edit">Edit</span></a>
+							<a href="{:url('delete',array('id'=>$vo.id))}" id="delete" ><span class="icon icon-23"  title="Delete">Delete</span></a>
+						</td>
+					</tr>  
+				{/volist}
+			{else /}	
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No recored been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>		
+	</table>
+	<div class="pages">{$return['page']}</div>
+	<!--footer start -->
+	{include file="footer"}
+	<!--footer end-->
+	
+
+</body>
+</html>
+
+
+
+<script src="__STATIC__/js/zepto.min.js"></script> 
+<script src="__STATIC__/js/picker.js"></script>
+<script src="__STATIC__/js/select.js"></script>
+<script>
+//打开iframe
+$("a.open-popup").on("click",function(){
+	$($(this).data("target")).popup(); 
+	$($(this).data("target")).find("iframe").attr("src", $(this).attr("data-url")); 
+})
+
+var closePopup = function(){
+	$(".close-popup").click();
+}
+
+</script>
+
+ <div id="popup" class="weui-popup-container" style="z-index: 999">
+  <div class="weui-popup-modal">
+	<p class="page-bd-15"><a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup" style="display: none">close</a></p>
+	 <div class="weui-header bg-blue"> 
+		<div class="weui-header-left"> <a class="icon icon-109 f-white">Back</a>  </div>
+		<h1 class="weui-header-title">Details</h1>
+		<div class="weui-header-right"><a class="icon icon-95 f-white"></a></div> 
+	</div>
+	 <iframe name="childFrame" src=""style="width:100%;height:100%;border:none"></iframe>
+  </div>
+ </div>
+
+ <script src="__STATIC__/js/zepto.min.js"></script> 
+<script>
+    $(".weui-header-left,.icon-95").on("click",function(){
+       $(".close-popup").click();
+    }) 
+
+    $("a#act").on("click",function(){
+           $(".weui_mask").show().addClass("weui_mask_visible");  
+           $("#weui_actionsheet").show().addClass("weui_actionsheet_toggle"); 
+           $(".weui_mask,.weui_actionsheet").removeAttr("style"); 
+		   $("iframe").attr("src", $(this).attr("data-url")); 
+    })
+	var close_mask = function(){
+		 $(".weui_mask").removeClass("weui_mask_visible").hide();  
+         $("#weui_actionsheet").removeClass("weui_actionsheet_toggle").hide(); 
+        $(".weui_mask,.weui_actionsheet").removeAttr("style");  
+	}
+    $(".weui_mask").on("click",function(){
+          close_mask();
+    })
+</script>

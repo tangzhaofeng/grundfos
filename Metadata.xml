@@ -1,0 +1,39 @@
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" ID="id-DwrIXeDL6QEAOjyCgN3Sx5HA--o-" cacheDuration="P0Y0M30DT0H0M0.0S" entityID="https://stgchksso.learn.taleo.net/fed/sp" validUntil="2018-11-17T04:44:13Z"><md:SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"><md:KeyDescriptor use="signing"><dsig:KeyInfo xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"><dsig:X509Data><dsig:X509Certificate>MIIDbDCCAlSgAwIBAgIEVyuvlzANBgkqhkiG9w0BAQUFADB4MQswCQYDVQQGEwJV
+UzELMAkGA1UECBMCSUwxEDAOBgNVBAcTB0NoaWNhZ28xDzANBgNVBAoTBk9yYWNs
+ZTEOMAwGA1UECxMFTGVhcm4xKTAnBgNVBAMTIHN0Z2xlYXJuc3NvLmxlYXJuLnRh
+bGVvY2xvdWQubmV0MB4XDTE2MDUwNTIwMzk1MVoXDTIxMDUwNDIwMzk1MVoweDEL
+MAkGA1UEBhMCVVMxCzAJBgNVBAgTAklMMRAwDgYDVQQHEwdDaGljYWdvMQ8wDQYD
+VQQKEwZPcmFjbGUxDjAMBgNVBAsTBUxlYXJuMSkwJwYDVQQDEyBzdGdsZWFybnNz
+by5sZWFybi50YWxlb2Nsb3VkLm5ldDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBAK1Ykl09OBUeYNclIVKjDfZxDS3+rbAV2M/0+rEwJsTACbS+W0W6WWyi
+HckZ7KzNHjtA1lifDJMEjqQdMi5xpl5Qcn/0hgQqDZYKDN0Ag6OWoUuesIgtiLy2
+qSLp3hxlGEFrq1dJ6n2gY1YS2M/M35LpO7qaFjGpHTvHW5qGN70fe1olDbZWeqLc
+j/ay80iLHb3hzlrcdEXT6i+MmkfBhLgV6Fc1pFntF+Kj29euujBU9iFnGzkzngg+
+/KjUHpcuOyHNEb6B5Qheilad5tAQVqlynVSbUndAFNpVlE8tgymOEu4+e7zp5f/x
+Bxrt8hhbG/WBfyQQqill62hPZyeq0dkCAwEAATANBgkqhkiG9w0BAQUFAAOCAQEA
+HjLaU4u+34GuqJmjZ+kHwpTb8Jx++3gqCXEyGOzmGbOEMrYV04/0DJcDrRmiSOmd
+2bXlpBhW4kHrnP2kZ8hWCjR4A5GpaTyIPglhBBHNDczNgHAoPlUurURPk2B12i4f
+TN9hDtps0iO5tAue1n4NvGFqPFwIOC8CGPU7+KeIO74RXqSTsQXvo6p9C0BJwFM/
+TaZNJAcI7CYcESBGRbnbeLKvYEy/5eQs30gthH4zzV8Ab6EMUUa/1G6z7DYA6rLB
+afk16Rj1qU+8B0f9JjXSid2kuOSXU+3W76iJ+APL2j3J0CTb/CNTeCZNp4KPkVIK
+Md5s/W3EF0hJN5ZeB3nIpQ==
+</dsig:X509Certificate><dsig:X509IssuerSerial><dsig:X509IssuerName>CN=stglearnsso.learn.taleocloud.net, OU=Learn, O=Oracle, L=Chicago, ST=IL, C=US</dsig:X509IssuerName><dsig:X509SerialNumber>1462480791</dsig:X509SerialNumber></dsig:X509IssuerSerial><dsig:X509SubjectName>CN=stglearnsso.learn.taleocloud.net, OU=Learn, O=Oracle, L=Chicago, ST=IL, C=US</dsig:X509SubjectName></dsig:X509Data></dsig:KeyInfo></md:KeyDescriptor><md:KeyDescriptor use="encryption"><dsig:KeyInfo xmlns:dsig="http://www.w3.org/2000/09/xmldsig#"><dsig:X509Data><dsig:X509Certificate>MIIDbDCCAlSgAwIBAgIEVyuvlzANBgkqhkiG9w0BAQUFADB4MQswCQYDVQQGEwJV
+UzELMAkGA1UECBMCSUwxEDAOBgNVBAcTB0NoaWNhZ28xDzANBgNVBAoTBk9yYWNs
+ZTEOMAwGA1UECxMFTGVhcm4xKTAnBgNVBAMTIHN0Z2xlYXJuc3NvLmxlYXJuLnRh
+bGVvY2xvdWQubmV0MB4XDTE2MDUwNTIwMzk1MVoXDTIxMDUwNDIwMzk1MVoweDEL
+MAkGA1UEBhMCVVMxCzAJBgNVBAgTAklMMRAwDgYDVQQHEwdDaGljYWdvMQ8wDQYD
+VQQKEwZPcmFjbGUxDjAMBgNVBAsTBUxlYXJuMSkwJwYDVQQDEyBzdGdsZWFybnNz
+by5sZWFybi50YWxlb2Nsb3VkLm5ldDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBAK1Ykl09OBUeYNclIVKjDfZxDS3+rbAV2M/0+rEwJsTACbS+W0W6WWyi
+HckZ7KzNHjtA1lifDJMEjqQdMi5xpl5Qcn/0hgQqDZYKDN0Ag6OWoUuesIgtiLy2
+qSLp3hxlGEFrq1dJ6n2gY1YS2M/M35LpO7qaFjGpHTvHW5qGN70fe1olDbZWeqLc
+j/ay80iLHb3hzlrcdEXT6i+MmkfBhLgV6Fc1pFntF+Kj29euujBU9iFnGzkzngg+
+/KjUHpcuOyHNEb6B5Qheilad5tAQVqlynVSbUndAFNpVlE8tgymOEu4+e7zp5f/x
+Bxrt8hhbG/WBfyQQqill62hPZyeq0dkCAwEAATANBgkqhkiG9w0BAQUFAAOCAQEA
+HjLaU4u+34GuqJmjZ+kHwpTb8Jx++3gqCXEyGOzmGbOEMrYV04/0DJcDrRmiSOmd
+2bXlpBhW4kHrnP2kZ8hWCjR4A5GpaTyIPglhBBHNDczNgHAoPlUurURPk2B12i4f
+TN9hDtps0iO5tAue1n4NvGFqPFwIOC8CGPU7+KeIO74RXqSTsQXvo6p9C0BJwFM/
+TaZNJAcI7CYcESBGRbnbeLKvYEy/5eQs30gthH4zzV8Ab6EMUUa/1G6z7DYA6rLB
+afk16Rj1qU+8B0f9JjXSid2kuOSXU+3W76iJ+APL2j3J0CTb/CNTeCZNp4KPkVIK
+Md5s/W3EF0hJN5ZeB3nIpQ==
+</dsig:X509Certificate><dsig:X509IssuerSerial><dsig:X509IssuerName>CN=stglearnsso.learn.taleocloud.net, OU=Learn, O=Oracle, L=Chicago, ST=IL, C=US</dsig:X509IssuerName><dsig:X509SerialNumber>1462480791</dsig:X509SerialNumber></dsig:X509IssuerSerial><dsig:X509SubjectName>CN=stglearnsso.learn.taleocloud.net, OU=Learn, O=Oracle, L=Chicago, ST=IL, C=US</dsig:X509SubjectName></dsig:X509Data></dsig:KeyInfo><md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/><md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes128-cbc"/><md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes192-cbc"/><md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#aes256-cbc"/><md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#tripledes-cbc"/></md:KeyDescriptor><md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://stgchksso.learn.taleo.net/fed/sp/samlv20" ResponseLocation="https://stgchksso.learn.taleo.net/fed/sp/samlv20"/><md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://stgchksso.learn.taleo.net/fed/sp/authnResponse20" index="1" isDefault="true"/></md:SPSSODescriptor></md:EntityDescriptor>

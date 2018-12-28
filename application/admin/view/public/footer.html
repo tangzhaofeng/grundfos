@@ -1,0 +1,27 @@
+<!-- <script src="__STATIC__/js/common/jquery.js"></script>  -->
+<script>
+//删除
+$("tr #delete").on("click", function(e) {
+	e.preventDefault();
+	var _this = $(this);
+	$.confirm("是否确定删除?", "删除?", function() {
+		$.getJSON(_this.attr('href'),function(result){
+		if(result.code == 1){
+				$.toast("Delete success!");
+				_this.parent().parent().remove();
+			}else{
+				$.toptips(result.msg);
+			}
+	}, function() {
+		//取消操作
+	});
+});
+});	
+
+
+$(".search-button").click(function(){
+	var v= $(".search-query").val();
+	$(".form-box form").submit()
+
+});
+</script>

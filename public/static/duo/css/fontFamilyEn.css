@@ -1,0 +1,11 @@
+body {
+	font-size: 16px;
+/*	font-family: "microsoft yahei", sans-serif, Arial, Tahoma, Helvetica;*/
+	font-family: "Open Sans", Arial, sans-serif, Tahoma, Helvetica;
+	color: #8A8F92;
+	background: #FFFFFF;
+}
+
+.fontFamily{
+	font-family: Arial, Verdana,sans-serif, Tahoma, Helvetica;
+}

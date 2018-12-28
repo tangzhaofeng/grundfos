@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Grundfos </title>
+    <link href="__STATIC__/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="__STATIC__/admin/css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/admin/css/style.min.css" rel="stylesheet">
+    <link href="__STATIC__/admin/css/login.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>
+        if(window.top!==window.self){window.top.location=window.location};
+    </script>
+
+</head>
+<style>
+.btn-success {
+    background-color: #ea9619;
+    border-color: #FF9800;
+    color: #FFF;
+}
+footer{
+    width: 100%;
+    position: absolute;
+    color: #777;
+    bottom: 10px;
+    text-align: center;
+}
+</style>
+<body class="signin">
+<div class="signinpanel">
+        <div class="col-sm-5" style="margin-left:30%" >
+            <form method="post" action="index.html">
+                 <div class="header " style="text-align: center;">
+                   <img src="__STATIC__/images/logo.jpg" style="width: 180px;margin:20px 0" ></img>
+                </div>
+
+12321
+                <p class="m-t-md" id="err_msg"></p>
+                <input type="text" class="form-control uname" placeholder="Account" id="username" />
+                <input type="password" class="form-control pword m-b" placeholder="Password" id="password" />
+                <div style="margin-bottom:70px">
+                    <input type="text" class="form-control" placeholder="Verify" style="color:black;width:120px;float:left;margin:0px 0px;" name="code" id="code"/>
+                    <img src="{:url('checkVerify')}" onclick="javascript:this.src='{:url('checkVerify')}?tm='+Math.random();" style="float:right;cursor: pointer"/>
+                </div>
+                <input class="btn btn-success btn-block" id="login_btn" value="Submit"/>
+            </form>
+        </div>
+</div>
+
+<footer>
+© 2018 GRUNDFOS Version V1
+</footer>
+<script src="__STATIC__/admin/js/jquery.min.js?v=2.1.4"></script>
+<script src="__STATIC__/admin/js/bootstrap.min.js?v=3.3.6"></script>
+<script type="text/javascript">
+    document.onkeydown=function(event){
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if(e && e.keyCode==13){ // enter 键
+            $('#login_btn').click();
+        }
+    };
+    var lock = false;
+    $(function () {
+        $('#login_btn').click(function(){
+            if(lock){
+                return;
+            }
+            lock = true;
+            $('#err_msg').hide();
+            $('#login_btn').removeClass('btn-success').addClass('btn-danger').val('Logining...');
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var code = $('#code').val();
+            $.post("{:url('login/doLogin')}",{'username':username, 'password':password, 'code':code},function(data){
+                lock = false;
+                $('#login_btn').val('Login').removeClass('btn-danger').addClass('btn-success');
+                if(data.code!=1){
+                    $('#err_msg').show().html("<span style='color:red'>"+data.msg+"</span>");
+                    return;
+                }else{
+                    window.location.href=data.data;
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

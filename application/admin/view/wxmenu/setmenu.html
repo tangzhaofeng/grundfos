@@ -1,0 +1,227 @@
+<!doctype html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="/glf/public/static/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+</head>
+<style>
+    html, body{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .form {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        height: 100%;
+        padding: 0 10px;
+    }
+    form {
+        width: 100%;
+    }
+    .form-group label{
+        display: block;
+    }
+    .form-group input {
+        display: inline-block;
+        width: 251px;
+    }
+    .submenu{
+        display: block;
+        margin-top: 10px;
+    }
+    .upload {
+        float: right;
+        width: 100px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0;
+        margin: 0 50px;
+    }
+</style>
+<body>
+    <div class="form">
+        <form>
+            <div class="row">
+                {volist name="data['button']" id="vo1" key="k1"}
+                    <div class="col-xs-4 col-md-4 firstMenu">
+                        <div class="form-group">
+                            <label>一级菜单</label>
+                            <div>
+                                <span>名称：</span><input type="text" class="form-control onename" value="{$vo1['name']}">
+                                <button id="addMenu" class="btn btn-default addone">+</button>
+                                <button id="addMenu" class="btn btn-default multone">-</button>
+                            </div>
+                            {if isset($vo1['sub_button'])}
+                                <div><span>链接：</span><input type="text" class="form-control submenu oneurl"></div>
+                            {else /}
+                                <div><span>链接：</span><input type="text" class="form-control submenu oneurl" value="{$vo1['url']}"></div>
+                            {/if}
+                            
+                        </div>
+                        {if isset($vo1['sub_button'])}
+                            <div class="form-group">
+                                <label>二级菜单</label>
+                                {volist name="vo1['sub_button']" id="vo2" key="k2"}
+                                    <div class="submenucon">
+                                        <div><span>名称：</span><input type="text" class="form-control submenu towname" value="{$vo2.name}">
+                                        <button id="addSubMenu" class="btn btn-default addtow">+</button>
+                                        <button id="addSubMenu" class="btn btn-default multtow">-</button>
+                                        </div>
+                                        <div><span>链接：</span><input type="text" class="form-control submenu towurl" value="{$vo2['url']}"></div>
+                                    </div>
+                                {/volist}
+                            </div>
+                        {else /}
+                            <div class="form-group">
+                                <label>二级菜单</label>
+                                <div class="submenucon">
+                                    <div><span>名称：</span><input type="text" class="form-control submenu towname">
+                                    <button id="addSubMenu" class="btn btn-default addtow">+</button>
+                                    <button id="addSubMenu" class="btn btn-default multtow">-</button></div>
+                                    <div><span>链接：</span><input type="text" class="form-control submenu towurl"></div>
+                                </div>
+                            </div>
+                        {/if}
+                    </div>
+                {/volist}
+            </div>
+            <button class="btn btn-default upload">提交</button></div>
+        </form>
+    <div>
+    <script src="/glf/public/static/admin/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/glf/public/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script>
+    $(function () {
+        var menuData = {:json_encode($data)};
+        //添加一级菜单
+        $('.form').on('click', '.addone', function(){
+            let num = $('.firstMenu').length
+            //三个一级菜单则无需添加
+            if ( num >= 3) {
+                alert("一级菜单只能添加三个")
+                return false
+            } else {
+                $('.row').append(`
+                    <div class="col-xs-4 col-md-4 firstMenu">
+                        <div class="form-group">
+                            <label>一级菜单</label>
+                            <div>
+                                <span>名称：</span><input type="text" class="form-control onename">
+                                <button id="addMenu" class="btn btn-default addone">+</button>
+                                <button id="addMenu" class="btn btn-default multone">-</button>
+                            </div>
+                            <div><span>链接：</span><input type="text" class="form-control submenu oneurl"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>二级菜单</label>
+                            <div class="submenucon">
+                                <div><span>名称：</span><input type="text" class="form-control submenu towname">
+                                <button id="addSubMenu" class="btn btn-default addtow">+</button>
+                                <button id="addSubMenu" class="btn btn-default multtow">-</button></div>
+                                <div><span>链接：</span><input type="text" class="form-control submenu towurl"></div>
+                            </div>
+                        </div>
+                    </div>
+                `)
+            }
+            return false
+        })
+        //删除一级菜单
+        $('.form').on('click', '.multone', function() {
+            if ($('.firstMenu').length > 1) {
+                $(this).parents(".firstMenu").remove()
+            } else {
+                alert("一级菜单至少留一个")
+            }
+            return false
+        })
+        
+        //添加二级菜单
+        $('.form').on('click', '.addtow', function() {
+            let num = $(this).parents('.form-group').children('.submenucon').length
+            if (num >= 5) {
+                alert("二级菜单只能添加五个")
+            } else {
+                $(this).parents('.form-group').append(`
+                <div class="submenucon">
+                    <div><span>名称：</span><input type="text" class="form-control submenu towname">
+                    <button id="addSubMenu" class="btn btn-default addtow">+</button>
+                    <button id="addSubMenu" class="btn btn-default multtow">-</button></div>
+                    <div><span>链接：</span><input type="text" class="form-control submenu towurl"></div>
+                </div>`)
+            }
+            return false
+        })
+        //删除二级菜单
+        $('.form').on('click', '.multtow', function() {
+            let num = $(this).parents('.form-group').children('.submenucon').length
+            if (num > 1) {
+                $(this).parents('.submenucon').remove()
+            } else {
+                alert("二级菜单至少留一个")
+            }
+            return false
+        })
+        
+        //提交
+        $('.upload').click(function() {
+            let issrue = confirm("确定要修改菜单吗？")
+            if (issrue) {
+                let menu = []
+                let menu_error = 0
+                //循环一级菜单
+                $('.onename').each(function(index, ele) {
+                    let oneurl = $(ele).parent().next().children('.oneurl').val();
+                    menu[index] = {}
+                    let onename = $(ele).val()
+                    menu[index].name = onename
+                    if (onename == ''){
+                        menu_error = 1
+                        return false
+                    }
+                    //如果有子标签
+                    if (oneurl == '') {
+                        menu[index]['sub_button'] = []
+                        $(ele).parents('.form-group').next().children('.submenucon').each(function(ind, el) {
+                            menu[index]['sub_button'][ind]={}
+                            let towname = $(el).find('.towname').val()
+                            menu[index]['sub_button'][ind]['name'] = towname
+                            if (towname == ''){
+                                menu_error = 1
+                                return false
+                            }
+                            menu[index]['sub_button'][ind]['url'] = $(el).find('.towurl').val()
+                            menu[index]['sub_button'][ind]['type']='view'
+                        })
+                    } else {
+                        menu[index].type='view'
+                        menu[index].url = oneurl
+                    }
+                })
+                if (menu_error) {
+                    alert('每个菜单都需要名称！')
+                    return false
+                }
+                //提交表单
+                $.post("{:url('setmenu', ['bu_type' => $bu_type])}", {menuConf: encodeURI(JSON.stringify({button:menu}))}, function(res){
+                    res = JSON.parse(res)
+                    if (res.errcode == 0) {
+                        alert("修改成功！")
+                    } else {
+                        alert("发生了错误，错误为："+res.errmsg)
+                    }
+                })
+            } else {
+
+            }
+            return false
+        })
+    })
+    </script>
+</body>
+</html>

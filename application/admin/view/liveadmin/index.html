@@ -1,0 +1,148 @@
+<!doctype html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<body>
+	<!--header start -->
+	{include file="public/header"}
+	<!--header end-->
+	
+	<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			<div class="list-grid-switch list-switched-on">
+				<a node-type="list-switch" style="display: none;" class="list-switch" href="javascript:void(0)">
+					<span class="icon icon-89"></span>
+				</a>
+			</div>
+		
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('add')}" style=" margin-top: 15px;" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>Add</a>
+				<!--<a href="{:url('export')}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-2"></i>Export</a>
+			   -->
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips">All loaded, Total:{$return['total']} items</span>
+	</div>
+
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+				<th  style="border-left:2px solid #fff">登入号码</th>
+				<th>老师头像</th>
+				<th>微信名</th>
+				<th>直播名</th>
+				<th>推流地址</th>
+				<th>pc端直播密码</th>
+				<th>描述</th>
+				<th>开始时间</th>
+				<th>封面</th>
+				<th>状态</th>
+				<th>操作</th>
+				<th>所属部门</th>
+			</tr>
+		</thead>
+
+		<tbody>	
+			{if condition="($return['total'] > 0) "}
+				{volist name="return['rows']" id="vo"}
+			<tr>
+				<td>
+					{$vo.tel}
+				</td>
+				<td><img src="{$vo.headimgurl}" alt=""></td>
+				<td><?php
+		if( base64_encode(base64_decode($vo['nickname']))){
+			echo base64_decode($vo['nickname']);
+		}else{
+			echo $vo['nickname'];
+		}
+		?></td>
+				<td>{$vo.title}</td>
+				<td style="width: 300px">{$vo.pushUrl}</td>
+				<td>{$vo.pass}</td>
+				<td>{$vo.describe}</td>
+				<td>{$vo.start_time}</td>
+				<td><img src="{$vo.live_img}" alt=""></td>
+				<td>
+				{if $vo.status == 1}
+					正在直播
+					{elseif $vo.status == 2}
+					未开始
+					{else/}
+					已结束
+					{/if}
+				</td>
+				<td>
+					<a href="{:url('edit',array('id'=>$vo.id))}"><span class="icon icon-115" title="Edit">Edit</span></a>
+					<br/>
+					<a href="{:url('sampdelete',array('id'=>$vo.id))}" id="delete" ><span class="icon icon-23"  title="delete">删除</span></a>
+					<br/>
+					<a href="{:url('merge_video',array('cid'=>$vo.cid))}">合并视频</a>
+					<a href="{:url('endLive',array('id'=>$vo.id))}">停止直播</a>
+				</td>
+				<td>
+					{if $vo.bu_id == 1}
+						RBS
+					{elseif $vo.bu_id == 2}
+						CBS
+					{elseif $vo.bu_id == 3}
+						WU
+					{else/}
+						IND
+					{/if}
+				</td>
+			</tr>
+				{/volist}
+			{else /}
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No record been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>		
+	</table>
+	<div class="pages"></div>
+	<!--footer start -->
+	{include file="footer"}
+	<!--footer end-->
+</body>
+</html>
+
+<script src="__STATIC__/js/zepto.min.js"></script> 
+<script src="__STATIC__/js/picker.js"></script>
+<script src="__STATIC__/js/select.js"></script>
+<script>
+//打开iframe
+$("a.open-popup").on("click",function(){
+	$($(this).data("target")).popup(); 
+	$($(this).data("target")).find("iframe").attr("src", $(this).attr("data-url")); 
+})
+
+var closePopup = function(){
+	$(".close-popup").click();
+}
+
+</script>
+
+ <div id="popup" class="weui-popup-container" style="z-index: 99">
+  <div class="weui-popup-modal">
+	<p class="page-bd-15"><a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup" style="display: none">Close</a></p>
+	 <iframe name="childFrame" src=""style="width:100%;height:100%;border:none"></iframe>
+  </div>
+ </div>

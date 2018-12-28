@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title></title>
+<style>
+li{list-style: none;}
+</style>
+</head>
+{include file="public/header"}
+<body>
+
+<div class="content_right" > 
+	<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText" value=" " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('add',['parent_id'=>0,'department_id'=>input('param.department_id')])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>添加顶级分类</a>
+			</div>
+		</div>
+	</div>
+	{$data}
+</div>	
+
+</body>
+</html>
+
+
+

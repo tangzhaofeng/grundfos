@@ -1,0 +1,80 @@
+<script src="__STATIC__/js/zepto.min.js"></script>
+
+<script>
+//搜索部分
+$('.search-button').click(function(){
+	$('.search-form').submit();
+})
+
+//thead 文件名大小修改日期 
+/*
+$('table.weui-table thead i').click(function(){
+	if($(this).attr('class') == 'weui_icon_circle'){
+		$(this).attr('class','weui_icon_success');
+		$('table.weui-table tbody tr i').attr('class','weui_icon_success');
+	} else {
+		$(this).attr('class','weui_icon_circle');
+		$('table.weui-table tbody tr i').attr('class','weui_icon_circle');
+	}
+	checked();
+});
+//tbody
+$('table.weui-table tbody .weui_icon_circle').click(function(){
+	if($(this).attr('class') == 'weui_icon_circle'){
+		$(this).attr('class','weui_icon_success');
+	} else {
+		$(this).attr('class','weui_icon_circle');
+	}
+	checked();
+});
+
+//
+var checked =function(){
+	var checked_count = $('table.weui-table tbody .weui_icon_success').length;
+	var all_count = $('table.weui-table tbody tr').length;
+	if(all_count == checked_count){
+		$('table.weui-table thead i').attr('class','weui_icon_success');
+	} else {
+		$('table.weui-table thead i').attr('class','weui_icon_circle');
+	}
+	
+	//提示选择的数量 
+	if(checked_count>0){
+		$('.history-list-dir').html('selected '+checked_count+' files');
+	} else{
+		$('.history-list-dir').html('all');
+	}
+}
+*/
+
+
+//删除
+$("tr #delete").on("click", function(e) {
+	e.preventDefault();
+	var _this = $(this);
+	$.confirm("是否确认删除?", "删除", function() {
+		$.getJSON(_this.attr('href'),function(result){
+		if(result.code == 1){
+				$.toast("Delete success!");
+				_this.parent().parent().remove();
+			}else{
+				$.toptips(result.msg);
+			}
+	}, function() {
+		//取消操作
+	});
+});
+});	
+
+</script>
+
+
+<script>
+$(document).ready(function(){
+  $(".list-switch").change(function(){
+	  $("#language").val( $(this).val() );
+	  $("form").submit();
+	
+  });
+});
+</script>

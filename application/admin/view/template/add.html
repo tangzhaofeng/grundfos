@@ -1,0 +1,258 @@
+ {include file="public/header"}
+ <style >
+ .img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+.img_wrap { overflow: hidden;height: 110px;width: 180px;position: relative;}
+.img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+.form-group-col-2 .form-cont{padding-left: 1px !important;}
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+<!--添加或者修改的弹框-->
+    <div class="content">   
+        <div class="weui_dialog_hd">
+			<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+            <span class="weui_dialog_title">发送推送 </span>
+        </div>
+		
+	
+        <form id="myform" class="parsley-validate " onsubmit="return false" method="post" id="form" data-parsley-validate >  
+			<div class="weui_cell" style="margin-top: 30px;">
+                <div class="weui_cell_hd"><label for="" class="weui_label">活动标签:</label></div>
+				<script>
+                    $(function () {
+                        $("#company_el").select2();
+                    });
+				</script>
+				<select name="grouping_id[]" id="company_el" multiple="multiple"  >
+
+					{volist name="group_list" id="vo" }
+						<option value="{$vo.id}">{$vo.grouping_name}</option>
+					{/volist}
+				</select>
+            </div>
+			<p class="f-gray"><i class="icon icon-40 f20 "></i>如果不选择活动标签则全部门推送</p>
+
+			<div class="weui_cell" >
+				<div class="weui_cell_hd"><label for="" class="weui_label">推送类型:</div>
+				<div class="weui_cell_bd weui_cell_primary">
+
+						<label class="checkbox-inline">
+							<input type="radio" name="type" id="inlineCheckbox1"  checked="checked" value="1">文本
+						</label>
+
+						<label class="checkbox-inline">
+							<input type="radio" name="type" id="inlineCheckbox1" value="2">信息模板
+						</label>
+
+				</div>
+			</div>
+
+
+			<div class="weui_cell" id="is_template_class">
+				<div class="weui_cell_hd"><label class="weui_label">消息模板</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<div class="fs-wrap Personal_role" id="template_class" style="width:500px;" >
+					</div>
+				</div>
+			</div>
+
+			<input type="hidden"  name="title_name" value="">
+
+			<div class="weui_cell" id="template_info">
+				<div class="weui_cell_hd"><label class="weui_label">模板</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<div class="fs-wrap Personal_role" style="width:500px;" >
+						<p>
+							<span>标题:</span>
+							<label class="checkbox-inline">
+								 <b id="title"></b>
+							</label>
+						</p>
+
+						<p>
+						<span>开头:</span>
+							<label class="checkbox-inline" id="first">
+								<input class="form-boxed form-control" name="first" type="text" style="width: 100px">
+							</label>
+						</p>
+
+						<div id="keyword_content">
+
+						</div>
+
+						<p>
+						<span>尾部:</span>
+						<label class="checkbox-inline" id="remark">
+							<input class="form-boxed form-control" name="remark" type="text" style="width: 100px">
+						</label>
+						</p>
+
+					</div>
+				</div>
+			</div>
+
+			<script>
+                $(function () {
+                    $(document).ready(function() {
+                        $('#template_info').hide()
+						$('#is_template_class').hide()
+                    });
+
+                    $('input[name=type]').click(function () {
+						if ($(this).val() == 2){
+                            $('#is_template_class').show()
+							$('#text_content').hide()
+						}else{
+                            $('#template_info').hide()
+                            $('#is_template_class').hide()
+                            $('#text_content').show()
+						}
+                    })
+
+                    var list
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url:"{:url('getTemplate')}",
+                        data:{
+                            'bu_id':'{$bu_id}'
+                        },// 你的formid
+                        async: false,
+                        success: function(data) {
+                            console.log(data);
+                            // console.log(lis);
+							//请求到当前的模板然后插入表单
+                            list = data['template_list']
+                            var info = data['template_list'];
+                            var template = $('#template_class');
+                            for(var i = 1 ; i < info.length ; i++){
+								template.append('<label class="checkbox-inline"  ><input type="radio" value="'+info[i]['template_id']+'" name="template_id" id="template_id">'+info[i]['title']+'</label>')
+							}
+                        }
+                    })
+
+                    $(document).on('click','#template_id',function () {
+                        if ($(this).prop("checked")) {
+							var id = $(this).val()
+							var div = $('#keyword_content')
+                            $('#template_info').show()
+                            for(var i = 1 ; i < list.length ; i++){
+							    if (list[i]['template_id'] == id){
+							        // $('input[name=template_id]').val(id)
+
+									div.children().remove()
+									$('#title').html(list[i]['title']);
+							        $('input[name=title_name]').val(list[i]['title'])
+									//获取指定的content内容进行截取,然后插入表单
+                                    var ip = list[i]['content'].substr(14)
+                                    var arrDele = ip.split('}}')
+                                    arrDele.pop()
+                                    arrDele.pop()
+                                    // console.log(arrDele);
+                                    // console.log(arrDele[0].split('：')[0]);
+									for (var a=0;a<arrDele.length;a++){
+                                        var name = arrDele[a].split('：')[0]
+										console.log(1);
+                                        div.append('<p><span>'+name+':</span><label class="checkbox-inline" id="keyword"><input class="form-boxed form-control" name="template_content[]" type="text" style="width: 100px"></label></p>')
+									}
+
+								}
+							}
+                        }
+                    })
+
+                });
+			</script>
+
+			<div class="weui_cell" id="text_content">
+                <div class="weui_cell_hd"><label class="weui_label">发送内容</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+					<div class="fs-wrap Personal_role" style="width:500px;" >
+						<textarea class="form-control" name="content" rows="3"></textarea>
+					</div>
+                </div>
+
+            </div>
+
+			<input type="hidden" name="bu_id" id="bu_id" value="{$bu_id}">
+            <div class="form-group-col-2">
+                <div class="form-label"></div>
+                <div class="form-cont">
+                    <input type="submit" class="btn btn-primary" id="submit" value="submit" style="margin: 30px 0;margin-left: 1px;"/>
+                </div>
+            </div> 
+        </form>
+    </div>   
+
+	<div class="mask" style="display:none">
+		<div class="weui_mask weui_mask_visible" id="overlay"></div>
+		<style type="text/css">.weui_dialog_ft a {display: block !important;width: 50% !important;float: left;}</style>
+		<div class="weui_dialog weui_dialog_visible" id="easyDialogBox">
+			<div class="weui_dialog_hd"><strong class="weui_dialog_title">tip</strong></div>
+			<div class="weui_dialog_bd"><i class="weui_icon_success"></i> <span class="my_tip">Created english document success</span></div>
+			<div class="weui_dialog_ft all"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog primary" style="width: 100% !important;">Back</a></div>
+			<div class="weui_dialog_ft only"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog default">Back</a><a href="javascript:;" id="easyDialogYesBtn" class="weui_btn_dialog primary">Create English document</a></div>
+		</div>
+	</div>
+	
+<!--<script src="__STATIC__/js/zepto.min.js"></script>	-->
+<!--<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>-->
+<!--<script src="__STATIC__/plugins/wysiwyg/external/jquery.hotkeys.js"></script>-->
+<!--<script src="__STATIC__/plugins/twitter-bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script src="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.js"></script>-->
+<!--<link href="__STATIC__/plugins/wysiwyg/index.css" rel="stylesheet">-->
+<!--<script src="__STATIC__/plugins/wysiwyg/bootstrap-wysiwyg.js"></script>	-->
+<script src="__STATIC__/js/parsley.js"></script>
+
+<script>
+
+//表单验证成功后ajax提交保存
+var is_validate =  false; //表单的验证情况 默认验证失败
+$('.parsley-validate').parsley().on('form:success', function() {
+	var is_validate = true;
+	document.getElementById("submit").disabled = false;
+	if(submited_language=='all'){
+		alert("Both english document and chinese document had been submited, thanks!"); return false;
+	}
+	ajax_saveData(); //提交数据
+});
+
+var submited_language = null;
+//ajax提交保存数据
+var HTTP_REFERER = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+var ajax_saveData = function(){
+	$.ajax({
+        cache: false,
+        type: "POST",
+        url:"{:url('add')}",
+        data:$('#myform').serialize(),// 你的formid
+        async: false,
+        success: function(data) {
+            if(data.code == 1 ){ //success
+				window.location.href = HTTP_REFERER;
+            }else{
+               alert(data.msg);
+            }
+        }
+    })
+}
+
+</script>
+
+<link href="__STATIC__/js/fSelect/fSelect.css" rel="stylesheet" type="text/css">
+<script src="__STATIC__/js/fSelect/fSelect.js?r=rand()"></script>
+<script>
+$(function() {
+	$('.select').fSelect();
+});
+</script>
+
+
+
+
+
+
+

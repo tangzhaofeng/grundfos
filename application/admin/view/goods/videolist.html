@@ -1,0 +1,151 @@
+<!doctype html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<style>
+select {min-width: 20px !important;border-radius: 3px;}
+</style>
+<body>
+	<!--header start -->
+	{include file="public/header"}
+	<!--header end-->
+	<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips">All loaded, Total:{$return['total']} items</span>
+	</div>
+
+
+
+
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>排序</th>
+				<th>视频名称</th>
+				<td>添加时间</td>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>	
+		
+			{if condition="($return['total'] > 0) "} 
+				{volist name="return['rows']" id="vo"}
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.order_num}</td>
+						<td class="video_name" content="{$vo.id}">{$vo.video_name}</td>
+						<td>{$vo.creater_time}</td>
+						<td>
+							<a href="{:url('videodelete',array('id'=>$vo.id))}" id="delete" ><span class="icon icon-23"  title="delete">Delete</span></a>
+						</td>
+					</tr>  
+				{/volist}
+			{else /}	
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No record been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>		
+	</table>
+	<div class="pages">{$return['page']}</div>
+	<script type="text/javascript">
+        $(function(){
+            $('.video_name').click(function(){
+                if(!$(this).is('.input')){
+                    $(this).addClass('input').html('<input type="text" style="width: 400px;height: 33px" value="'+ $(this).text() +'" />').find('input').focus().blur(function(){
+                        var thisid = $(this).parent().attr('content');
+                        var thisvalue=$(this).val();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "{:url('setvideoname')}",
+                            data: "thisid="+thisid+"&thisvalue="+thisvalue
+                        });
+                        $(this).parent().removeClass('input').html($(this).val() || ' ');
+                    });
+                }
+            }).hover(function(){
+                $(this).addClass('hover');
+            },function(){
+                $(this).removeClass('hover');
+            });
+
+            $('.total').click(function(){
+                if(!$(this).is('.input')){
+                    $(this).addClass('input').html('<input type="text" style="width: 79px;height: 33px" value="'+ $(this).text() +'" />').find('input').focus().blur(function(){
+                        var thisid = $(this).parent().attr('content');
+                        var thisvalue=$(this).val();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "{:url('settotal')}",
+                            data: "thisid="+thisid+"&total="+thisvalue
+                        });
+                        $(this).parent().removeClass('input').html($(this).val() || ' ');
+                    });
+                }
+            }).hover(function(){
+                $(this).addClass('hover');
+            },function(){
+                $(this).removeClass('hover');
+            });
+
+            $('.click').click(function(){
+                if(!$(this).is('.input')){
+                    $(this).addClass('input').html('<input type="text" style="width: 79px;height: 33px" value="'+ $(this).text() +'" />').find('input').focus().blur(function(){
+                        var thisid = $(this).parent().attr('content');
+                        var thisvalue=$(this).val();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "{:url('setclick')}",
+                            data: "thisid="+thisid+"&click="+thisvalue
+                        });
+                        $(this).parent().removeClass('input').html($(this).val() || ' ');
+                    });
+                }
+            }).hover(function(){
+                $(this).addClass('hover');
+            },function(){
+                $(this).removeClass('hover');
+            });
+
+        });
+	</script>
+
+
+	<!--footer start -->
+	{include file="footer"}
+	<!--footer end-->
+	
+
+</body>
+</html>
+
+
+
+

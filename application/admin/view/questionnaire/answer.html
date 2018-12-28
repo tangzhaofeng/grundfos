@@ -1,0 +1,136 @@
+<!doctype html>
+<head>
+  <title></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <style>
+    .container {
+      margin: 0 !important;
+      padding: 0 !important;
+      margin-left: 20px !important;
+      margin-bottom: 20px !important;
+      padding-left: 20px !important;
+      box-shadow: 10px 10px 20px #ccc;
+      background: #fefefe;
+    }
+    .title {
+      font-size: 20px;
+    }
+    .checkbox-inline {
+      padding: 10px !important;
+    }
+    .container input[type=checkbox] {
+      margin-left: -15px !important;
+      margin-top: 7px !important;
+    }
+  </style>
+</head>
+<body>
+<!--header start -->
+{include file="public/header"}
+<!--header end-->
+
+<div class="module-toolbar g-clearfix">
+  <div class="prev-dom"></div>
+  <div class="default-dom">
+    <div class="list-grid-switch list-switched-on">
+      <a node-type="list-switch" style="display: none;" class="list-switch" href="javascript:void(0)">
+        <span class="icon icon-89"></span>
+      </a>
+    </div>
+
+    <div class="bar-search">
+      <div class="form-box" node-type="form-box">
+
+      </div>
+    </div>
+    <div class="bar" style="white-space: nowrap; position: relative;">
+      <!--<a href="{:url('add')}" style=" margin-top: 15px;" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>Add</a>-->
+      <!--<a href="{:url('export')}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-2"></i>Export</a>
+     -->
+      <a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+    </div>
+  </div>
+</div>
+
+<!--正文-->
+{volist name="quest_info" id="vo"}
+<div class="container">
+  <!--一行属于一个答案-->
+  <div class="row" style="padding: 30px 0">
+    <div class="col-md-12 title">
+      {if  $vo.type == 1}
+        单选:
+      {elseif $vo.type == 2 /}
+        多选:
+      {elseif $vo.type == 3 /}
+        文本:
+      {/if}
+      {$vo.info_name}
+    </div>
+    <div class="col-md-12" style="margin-top: 20px; font-size: 16px;">
+
+      <label class="checkbox-inline">
+        {volist name="$vo['type_info']" id="v"}
+          {if $vo.type == 1 }
+             {if !empty($v.is_on)}
+                <label class="checkbox-inline">
+                <input type="radio" id="inlineCheckbox1" checked="checked" disabled="disabled" value="option1"> {$v.content}
+                </label>
+              {else /}
+                <label class="checkbox-inline">
+                  <input type="radio" id="inlineCheckbox1" disabled="disabled" value="option1"> {$v.content}
+                </label>
+              {/if}
+          {elseif $vo.type == 2 /}
+          {if !empty($v.is_on)}
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox1" checked="checked" disabled="disabled" value="option1"> {$v.content}
+              </label>
+              {else /}
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox1" disabled="disabled" value="option1"> {$v.content}
+              </label>
+              {/if}
+          {/if}
+        {/volist}
+        {if $vo.type == 3}
+            <p>{$vo.content}</p>
+        {/if}
+      </label>
+
+    </div>
+
+  </div>
+</div>
+{/volist}
+
+
+<!--footer start -->
+{include file="footer"}
+<!--footer end-->
+</body>
+</html>
+
+<script src="__STATIC__/js/zepto.min.js"></script>
+<script src="__STATIC__/js/picker.js"></script>
+<script src="__STATIC__/js/select.js"></script>
+<script>
+    //打开iframe
+    $("a.open-popup").on("click",function(){
+        $($(this).data("target")).popup();
+        $($(this).data("target")).find("iframe").attr("src", $(this).attr("data-url"));
+    })
+
+    var closePopup = function(){
+        $(".close-popup").click();
+    }
+
+</script>
+
+<div id="popup" class="weui-popup-container" style="z-index: 99">
+  <div class="weui-popup-modal">
+    <p class="page-bd-15"><a href="javascript:;" class="weui_btn weui_btn_plain_primary close-popup" style="display: none">Close</a></p>
+    <iframe name="childFrame" src=""style="width:100%;height:100%;border:none"></iframe>
+  </div>
+</div>

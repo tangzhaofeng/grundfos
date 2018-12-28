@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>DUO</title>
+		<link rel="shortcut icon" type="image/x-icon" href="__STATIC__/duo/images/icon-small.ico" media="screen" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/fontType.css">
+		<link rel="stylesheet" href="__STATIC__/duo/css/normalize.min.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/iconfont.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/swiper.min.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/video-6.2.8.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/animate.min.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/index.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/ladda.min.css" />
+		<style type="text/css">
+			.icon {
+				width: 1em;
+				height: 1em;
+				vertical-align: -0.15em;
+				fill: currentColor;
+				overflow: hidden;
+			}
+
+			.html,
+			body {
+				height: 100%;
+				overflow-y: auto;
+			}
+		</style>		
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			if(localStorage.getItem('isFisrt') != null) {
+
+			} else {
+				document.getElementsByTagName("body")[0].style.overflowY = "hidden";
+				document.body.scrollTop = document.documentElement.scrollTop = 0;
+			}
+		</script>
+		<div id="app">
+			<!--对于jquery插入的代码中包含固定的文本先使用vue的语法进行使用,然后在插入dom时使用,虽然没这么做的蠢法-->
+			<div class="vue-data" style="display:none">
+				<span class="signUp">{{ $t("message.sign")}}</span>
+				<span class="nextStep">{{ $t("message.guide.next")}}</span>
+				<span class="study">{{ $t("message.guide.study")}}</span>
+			</div>
+			<div class="is-ie" id="is-ie" style="display:none">
+				<div class="content">
+					<div class="img">
+						<img src="__STATIC__/duo/images/ie-logo.png" alt="" />
+					</div>
+					<div class="title">
+						<p>为了更好的体验，请升级至IE10+版本，或者使用其它浏览器观看(谷歌浏览器)</p>
+					</div>
+				</div>
+			</div>
+			<div class="not-ie" id="not-ie" style="display: block;">
+				<div class="fixed-header">
+					<div class="select-language">
+						<div class="title">
+							<b></b>
+							<i class="text js-select-lang">{{language}}</i>
+							<span class="fa fa-bars"></span>
+						</div>
+						<div class="dropdown">
+							<div class="arrow"></div>
+							<div class="js-language">
+								<!--<p data-language="en" lang-num="1">English<span class="fa fa-inbox"></span></p>		-->						
+							</div>
+							
+						</div>
+					</div>
+					<div class="logo-img clearfix">
+						<div class="logo-img-wrapper logo-img-1">
+							<a href="index.html">
+								<div class="wai">
+									<div class="nei active">
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="line"></div>
+						<div class="logo-img-wrapper logo-img-2">
+							<a href="index.html">
+								<div class="wai">
+									<div class="nei active">
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!--头部导航-->
+				<header class="top-header">
+					<div class="top-content">
+						<div class="content apple-banner">
+							<div class="swiper-container-1 swiper-container">
+								<div class="swiper-wrapper js-top-swiper">
+									<!--<div class="swiper-slide">
+										<img src="__STATIC__/duo/images/banner-2.png" alt="" />
+										<div class="gredient-mask"></div>
+									</div>-->
+									
+								</div>
+								<!-- Add Pagination -->
+								<div class="swiper-pagination swiper-pagination-1"></div>
+								<!--					    <ul class="swiper-pagination swiper-pagination-1 autoplay">
+	    					</ul>-->
+								<div class="banner-text js-top-text">
+									<p></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</header>
+
+				<!--中间四大模块-->
+				<section class="middle-section">
+					<div class="container">
+						<div class="videos-wrapper section-info scroll-data-0" id="vedio">
+							<div class="swiper-container-2 swiper-container swiper-no-swiping">
+
+								<!--视屏区域-->
+								<div class="swiper-wrapper">
+
+								</div>
+
+								<div id="vedio-button" class="custom-button-wrapper" style="display: none;">
+									<div class="swiper-button-next swiper-button-next-1 custom-button-next"> > </div>
+									<div class="swiper-button-prev swiper-button-prev-2 custom-button-prev">
+										< </div>
+									</div>
+
+									<div class="add-icon-text">
+										<i>
+						    		<svg class="icon" aria-hidden="true">
+								  		<use xlink:href="#icon-Videosxuanzhong-"></use>
+									</svg>
+					    		</i>
+										<span>{{ $t("message.videos")}}</span>
+									</div>
+									<p class="teshuclass">{{ $t("message.comingSoon")}}!</p>
+								</div>
+							</div>
+							
+							<div class="documents-wrapper section-info scroll-data-1" id="documents">
+								<div class="swiper-container swiper-container-3 swiper-no-swiping">
+
+									<div class="swiper-wrapper">
+
+									</div>
+									<div id="document-button" class="custom-button-wrapper" style="display: none;">
+										<div class="swiper-button-next swiper-button-next-3 custom-button-next"> > </div>
+										<div class="swiper-button-prev swiper-button-prev-4 custom-button-prev">
+											< </div>
+										</div>
+
+										<div class="add-icon-text">
+											<i>
+						    		<svg class="icon" aria-hidden="true">
+								  		<use xlink:href="#icon-Documentsxuanzhong"></use>
+									</svg>
+					    		</i>
+											<span>{{ $t("message.documents")}}</span>
+										</div>
+										<p class="teshuclass">{{ $t("message.comingSoon")}}!</p>
+									</div>
+								</div>
+								<div class="webinars-wrapper section-info scroll-data-2" id="webinars">
+									<div class="add-icon-text">
+										<i>
+				    			<svg class="icon" aria-hidden="true">
+						  			<use xlink:href="#icon-Webinarsxuanzhong--"></use>
+								</svg>
+				    		</i>
+										<span>{{ $t("message.webinars")}}</span>
+									</div>
+									<div class="Webinars-list">
+										<ul>
+
+										</ul>
+										<div class="more-wrapper" style="display: none;">
+											<span class="down">{{ $t("message.more") }}</span>
+											<b class="less" style="display: none;">{{ $t("message.less") }}</b>
+										</div>
+										<p class="teshuclass">{{ $t("message.comingSoon")}}!</p>
+									</div>
+								</div>
+								<div class="FAQS-wrapper first-control section-info scroll-data-3" id="FAQS">
+									<div class="add-icon-text">
+										<i>
+					    		<svg class="icon" aria-hidden="true">
+							  		<use xlink:href="#icon-FAQsxuanzhong-"></use>
+								</svg>
+						    </i>
+										<span>{{ $t("message.FAQs")}}</span>
+									</div>
+									<div class="FAQS-list">
+										<ul>
+
+										</ul>
+										<div class="more-wrapper" style="display: none;">
+											<span class="down">{{ $t("message.more") }}</span>
+										</div>
+										<p class="teshuclass">{{ $t("message.comingSoon")}}!</p>
+									</div>
+								</div>
+							</div>
+				</section>
+
+				<div class="footer">
+					<span>Copyright@2011-2018</span>
+					<span style="font-size: 14px;padding-left: 10px;">© 2018 DUO Version V1.5</span>
+				</div>
+
+				<!--右侧固定导航-->
+				<div class="right-navigation" style="display: none;">
+					<div class="navigation">
+						<ul>
+							<li>
+								<a href="#vedio" class="vedio">
+									<span>1.{{ $t("message.videos")}}</span>
+									<i>
+						    		<svg class="icon" aria-hidden="true">
+								  		<use xlink:href="#icon-Videosweixuanzhong"></use>
+									</svg>
+							    </i>
+								</a>
+							</li>
+							<li>
+								<a href="#documents" class="documents">
+									<span>2.{{ $t("message.documents")}} </span>
+									<i>
+						    		<svg class="icon" aria-hidden="true">
+								  		<use xlink:href="#icon-Documentsweixuanzhong"></use>
+									</svg>
+							    </i>
+								</a>
+							</li>
+							<li>
+								<a href="#webinars" class="webinars">
+									<span>3.{{ $t("message.webinars")}}</span>
+									<i>
+						    		<svg class="icon" aria-hidden="true">
+								  		<use xlink:href="#icon-Webinarsweixuanzhong-"></use>
+									</svg>
+							    </i>
+								</a>
+							</li>
+							<li>
+								<a href="#FAQS" class="FAQS">
+									<span>4.{{ $t("message.FAQs")}}</span>
+									<i>
+						    		<svg class="icon" aria-hidden="true">
+								  		<use xlink:href="#icon-Webinarsweixuanzhong-"></use>
+									</svg>
+							    </i>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="submit-btn-wrapper">
+						<div class="submit-bg bg scroll-data-4">
+							<i>
+							<svg class="icon" aria-hidden="true">
+					  			<use xlink:href="#icon-yijianfankui"></use>
+							</svg>
+						</i>
+						</div>
+						<div class="kefu-bg bg">
+							<i>
+							<svg class="icon" aria-hidden="true">
+					  			<use xlink:href="#icon-chatbot"></use>
+							</svg>
+						</i>
+						</div>
+						<div class="return-bg bg">
+							<i>
+							<svg class="icon" aria-hidden="true">
+					  			<use xlink:href="#icon-Top"></use>
+							</svg>
+						</i>
+						</div>
+						<div class="submit-container">
+							<div class="top-title">{{ $t("message.feedback")}}</div>
+							<div class="middle-title">
+								<!--Do you think the training video are helpful?-->
+								{{ $t("message.feedbackTitle")}}
+							</div>
+							<div class="middle-img">
+								<a href="javascript:;" class="yes">
+									<span>
+									<i>
+										<svg class="icon" aria-hidden="true">
+								  			<use xlink:href="#icon-xiaolianjuse"></use>
+										</svg>
+									</i>
+								</span>
+									<em>{{ $t("message.yes")}}</em>
+								</a>
+								<a href="javascript:;" class="yiban">
+									<span>
+									<i>
+										<svg class="icon" aria-hidden="true">
+								  			<use xlink:href="#icon-yibanlanse"></use>
+										</svg>
+									</i>
+								</span>
+									<em>{{ $t("message.average")}}</em>
+								</a>
+								<a href="javascript:;" class="no">
+									<span>
+									<i>
+										<svg class="icon" aria-hidden="true">
+								  			<use xlink:href="#icon-kulianlanse"></use>
+										</svg>
+									</i>
+								</span>
+									<em>{{ $t("message.no")}}</em>
+								</a>
+							</div>
+<!--							<div class="submit">
+								<button>{{ $t("message.submitBtn")}}</button>
+							</div>-->
+							<div class="progress-demo submit">
+								<button data-color="blue" class="ladda-button" data-style="expand-right"> <b class="text">{{ $t("message.submitBtn")}}</b> <i class="icon1"></i></button>
+							</div>
+							<div class="sanjiao"></div>
+						</div>
+					</div>
+				</div>
+
+				<!--视屏弹出层-->
+				<div class="box-layer" id="vedio-mask" style="display: none;">
+					<div class="bottom-mask">
+
+					</div>
+					<div class="top-content vedio-wrapper clearfix">
+						<div class="left-vedio">
+							<div class="vedio">
+								<video id="my-video" data-setup='{"controlBar":{"VolumeControl":{"vertical":false}}}' class="video-js" controls preload="none">
+									<source src="audioFile/test.mp4" type="video/mp4" />
+									<!--<source src="movie.ogg" type="video/ogg" />
+							  <source src="movie.webm" type="video/webm" />-->
+								</video>
+
+							</div>
+						</div>
+						<div class="right-text fontFamily">
+							<div class="right-container">
+								<div class="title">
+
+								</div>
+							</div>
+						</div>
+						<span class="closes-btn">
+						<i class="iconfont icon-guanbianniu"></i>
+					</span>
+					</div>
+				</div>
+
+				<!--文档弹出层-->
+				<div class="box-layer" id="document-mask" style="display: none;">
+					<div class="bottom-mask">
+
+					</div>
+					<div class="top-content doumentRead clearfix">
+						<div class="left-img"><img src="__STATIC__/duo/images/doucments-1.png" alt="" /></div>
+						<div class="right-text fontFamily">
+							<div class="right-container">
+								<div class="info">
+
+								</div>
+								<div class="doument-btn">
+									<a class="view" href="__STATIC__/duo/generic/web/viewer.html?file=KN_Login_Salesfolder_English.pdf" target="_blank">View</a>
+								</div>
+							</div>
+						</div>
+						<span class="closes-btn">
+			        	<i class="iconfont icon-guanbianniu"></i>
+					</span>
+					</div>
+				</div>
+
+				<!--start指导弹出层-->
+				<div class="box-layer fancybox-margin" id="guide-mask" style="display: none;">
+					<div class="bottom-mask">
+
+					</div>
+					<div class="guide-contaier">
+						<div class="start-wrapper" style="display: block;">
+							<div class="start-bg">
+								<div class="start-img">
+									<img src="__STATIC__/duo/images/start-2.png" alt="" />
+								</div>
+								<div class="start-text">
+									<div class="info js-start-text">
+										<p></p>
+									</div>
+								</div>
+								<div class="starat-btn">
+									<button>Start</button>
+								</div>
+							</div>
+						</div>
+						<div class="guide-box" style="display: none;">
+							<div class="feedBack-container img-wrapper">
+								<div class="feedback-step step">
+									<h2 class="title"><span>6</span> <b>{{ $t("message.feedback")}}</b></h2>
+									<div class="kuang">
+										<div class="text"><span>{{ $t("message.guide.feedbackInfo")}}</span></div>
+									</div>
+									<div class="icon-img">
+										<i>
+										<img src="__STATIC__/duo/images/Feedback-icon.png" alt="" />
+									</i>
+									</div>
+									<div class="shou"><img src="__STATIC__/duo/images/guide-shou.png" alt="" /></div>
+								</div>
+							</div>
+							<div class="guide-wrapper">
+								<div class="step-container">
+									<div class="img-wrapper">
+										<div class="vedio-step step">
+											<h2 class="title"><span>1</span> <b>{{ $t("message.videos")}}</b></h2>
+											<div class="kuang">
+												<div class="text"><span>{{ $t("message.guide.videoInfo")}}</span></div>
+											</div>
+											<div class="icon-img">
+												<i>
+											<img src="__STATIC__/duo/images/Videos-icon.png" alt="" />
+										</i>
+											</div>
+											<div class="shou"><img src="__STATIC__/duo/images/guide-shou.png" alt="" /></div>
+										</div>
+										<div class="certificate-step step">
+											<h2 class="title"><span>2</span> <b>{{ $t("message.certificate")}}</b></h2>
+											<div class="kuang">
+												<div class="text"><span>{{ $t("message.guide.certificateInfo")}}</span></div>
+											</div>
+											<div class="icon-img">
+												<i>
+											<img src="__STATIC__/duo/images/Certificate-icon.png" alt="" />
+										</i>
+											</div>
+											<!--<div class="shou"><img src="__STATIC__/duo/images/guide-shou.png" alt="" /></div>-->
+										</div>
+										<div class="documents-step step">
+											<h2 class="title"><span>3</span> <b>{{ $t("message.documents")}}</b></h2>
+											<div class="kuang">
+												<div class="text"><span>{{ $t("message.guide.documentsInfo")}}</span></div>
+											</div>
+											<div class="icon-img">
+												<i>
+											<img src="__STATIC__/duo/images/Documents-icon.png" alt="" />
+										</i>
+											</div>
+											<div class="shou"><img src="__STATIC__/duo/images/guide-shou.png" alt="" /></div>
+										</div>
+										<div class="webinars-step step">
+											<h2 class="title"><span>4</span> <b>{{ $t("message.webinars")}}</b></h2>
+											<div class="kuang">
+												<div class="text"><span>{{ $t("message.guide.webinarsInfo")}}</span></div>
+											</div>
+											<div class="icon-img">
+												<i>
+											<img src="__STATIC__/duo/images/Webinars-icon.png" alt="" />
+										</i>
+											</div>
+											<div class="shou"><img src="__STATIC__/duo/images/guide-shou.png" alt="" /></div>
+										</div>
+										<div class="FAQS-step step">
+											<h2 class="title"><span>5</span> <b>{{ $t("message.FAQs")}}</b></h2>
+											<div class="kuang">
+												<div class="text"><span>{{ $t("message.guide.FAQSInfo")}}</span></div>
+											</div>
+											<div class="icon-img">
+												<i>
+											<img src="__STATIC__/duo/images/FAQS-icon.png" alt="" />
+										</i>
+											</div>
+											<div class="shou"><img src="__STATIC__/duo/images/guide-shou.png" alt="" /></div>
+										</div>
+									</div>
+									<div class="slot-wrapper">
+										<ul>
+											<li class="active"></li>
+											<li></li>
+											<li></li>
+											<li></li>
+											<li></li>
+											<li></li>
+										</ul>
+									</div>
+									<div class="click-wrapper">
+										<div class="btn-control clearfix">
+											<button class="btn bgActive prev">{{ $t("message.guide.previous")}}</button>
+											<button class="btn active next">{{ $t("message.guide.next")}}</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--获取证书层-->
+				<div class="box-layer js-getCert-box" id="getCert-box" style="display: none;">
+					<div class="bottom-mask">
+
+					</div>
+					<div class="top-content getCert">
+						<div class="top-container">
+							<h2>{{ $t("message.certificate")}}</h2>
+							<div class="content">
+								<h3><span>Dear </span><span>XXX:</span></h3>
+								<div class="text js-getCert-text">
+									
+								</div>
+								<div class="img-logo">
+									<p class="left-img"><img src="__STATIC__/duo/images/duo-logo1-caise.png" alt="" /></p>
+									<p class="line"></p>
+									<p class="right-img"><img src="__STATIC__/duo/images/duo-logo2-caise.png" alt="" /></p>
+								</div>
+							</div>
+						</div>
+						<div class="bottom-btn">
+							<a href="javascript:;">Go to ESP</a>
+						</div>
+						<span class="closes-btn">
+			        	<i class="iconfont icon-guanbianniu"></i>
+					</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		
+
+		<script src="__STATIC__/duo/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var IEbanben = 0;
+			function IEVersion() {
+				var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+				var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+				var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+				var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+				if(isIE) {
+					var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+					reIE.test(userAgent);
+					var fIEVersion = parseFloat(RegExp["$1"]);
+					if(fIEVersion == 7) {
+						IEbanben = 7;
+					} else if(fIEVersion == 8) {
+						IEbanben = 8;
+					} else if(fIEVersion == 9) {
+						IEbanben = 9;
+					} else if(fIEVersion == 10) {
+						IEbanben = 10;
+					} else {
+						IEbanben = 6; //IE版本<=7
+					}
+				} else if(isEdge) {
+					IEbanben = 'edge'; //edge
+				} else if(isIE11) {
+					IEbanben = 11;; //IE11
+				} else {
+					IEbanben = 0
+					console.log("不是ie浏览器"); //不是ie浏览器
+
+				}
+			}
+			IEVersion();
+			if(IEbanben<=9 && IEbanben!=0){
+				document.getElementById('is-ie').style.display="block";
+				document.getElementById('not-ie').style.display="none";
+			}else{
+				document.getElementById('is-ie').style.display="none";
+				document.getElementById('not-ie').style.display="block";
+			}
+
+			if(IEbanben == '10' || IEbanben == '11' || IEbanben == 'edge') {
+				console.log('这是ie浏览器')
+				$('.logo-img .active.nei').css('left', '0');
+				$('.submit-btn-wrapper .submit-container').css('border', '1px solid #aaa');
+				$('.submit-btn-wrapper .sanjiao').css('border-left-color', '#eee');
+			}
+
+		</script>
+		
+		<script>
+			var languageApi="{:url('api/getTotalLanguage')}";
+			var PINGimgURL = '__STATIC__/duo/';
+			var languageObj = {};
+		</script>
+		<script src="__STATIC__/duo/js/language.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/vue-2.5.13.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/vue-i18n.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/iconfont.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/swiper.js" type="text/javascript" charset="utf-8"></script>		
+		<script src="__STATIC__/duo/js/international.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">			
+			var ajaxUrl = "{:url('api/getContents')}";
+			var getWebinarsInfo = "{:url('index/webinars')}";
+			var feedBackUrl= "{:url('api/feedback')}";
+			var indexUrl = "{:url('index/index')}"
+			//浏览首页的四大模块的次数url
+			var liulanUrl= "{:url('api/addView')}" 
+			
+			//判断是否出现证书
+			var is_Certicate=0;
+			
+		</script>
+		<script src="__STATIC__/duo/js/video-6.28.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/spin.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/ladda.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/wow.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/index.js" type="text/javascript" charset="utf-8"></script>	
+		<script type="text/javascript">
+			$(function(){
+				var wow = new WOW({
+			    	boxClass: 'wow',
+				    animateClass: 'animated',
+				    offset: 200,
+				    live: true
+				});
+				wow.init();
+			})
+		</script>
+
+	</body>
+
+</html>

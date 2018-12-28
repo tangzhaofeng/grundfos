@@ -1,0 +1,224 @@
+<!doctype html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <!-- <link href="/glf/public/static/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"> -->
+</head>
+<style>
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+body {
+  height: 100vh;
+  font-family: "Open Sans", sans-serif;
+}
+.box{
+  display: flex;
+
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    align-items: center; 
+    height: 100%;
+}
+
+.container ul {
+  margin: 0;
+  list-style: none;
+  position: relative;
+  /* padding: 1px 100px; */
+  color: #11497b;
+  font-size: 13px;
+}
+.container ul:before {
+  content: "";
+  width: 1px;
+  height: 100%;
+  position: absolute;
+  border-left: 2px dashed #11497b;
+}
+.container ul li {
+  position: relative;
+  margin-left: 30px;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 14px;
+  border-radius: 6px;
+  width: 250px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.08);
+}
+.container ul li:not(:first-child) {
+  margin-top: 60px;
+}
+.container ul li > span {
+  width: 2px;
+  height: 100%;
+  background: #11497b;
+  left: -30px;
+  top: 0;
+  position: absolute;
+}
+.container ul li > span:before, .container ul li > span:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #11497b;
+  position: absolute;
+  background: #11497b;
+  left: -5px;
+  top: 0;
+}
+.container ul li span:after {
+  top: 100%;
+}
+.container ul li > div {
+  margin-left: 10px;
+}
+.container div .title, .container div .type {
+  font-weight: 600;
+  font-size: 12px;
+}
+.container div .info {
+  font-weight: 300;
+}
+.container div > div {
+  margin-top: 5px;
+}
+.container span.number {
+  height: 100%;
+}
+.container span.number span {
+  position: absolute;
+  font-size: 10px;
+  left: -130px;
+  font-weight: bold;
+  top: 25px;
+}
+.info{
+  flex: 0 0 300px;
+  width:300px;
+}
+.info ul {
+  padding: 0;
+  /* list-style-type:none;
+  position: absolute;
+  top: 100px;
+  left: 60px; */
+}
+.info ul li{
+
+  font-size: 16px;
+  /* font-weight: bolder; */
+  padding: 15px 0;
+  list-style: none;
+}
+a:link {color: rgb(76, 76, 245); text-decoration:none;}
+a:active {color: rgb(76, 76, 245); text-decoration:none;}
+a:visited {color:rgb(76, 76, 245); text-decoration:none;} 
+a:hover {color: rgb(76, 76, 245); text-decoration:none;}
+
+.back{
+  display: block;
+  font-size: 20px;
+  margin: 50px 0 20px 0;
+  color:#00A9E0 !important;
+}
+.button{
+  width:50px;
+  outline: none;
+  height: 30px;
+  background: #11497b;
+  color: #FFF;
+  line-height: 30px;
+  border-radius: 5px;
+  border: none;
+  margin-left: 6px;
+}
+input[type="checkbox"]{
+  margin-left: 6px;
+}
+input[type="checkbox"]:first-child{
+  margin-left:0;
+}
+.avator{
+  width: 60px;
+  vertical-align: middle;
+}
+
+</style>
+
+<body>
+    <div class="weui_dialog_hd">
+        <a href="javascript:window.history.go(-1);" class="back">Back</a>
+    </div>
+    <div class="box">
+
+    <div class="info">
+        <form action="{:url('userTimeEvent',array('id'=>$info.id))}" method="post">
+            <input type="checkbox" name="bu_id[]" value="1" <?php
+              if (isset($_POST['bu_id']) && in_array(1, $_POST['bu_id'])){
+                echo 'checked';
+              }
+            ?>/> RBS
+            <input type="checkbox" name="bu_id[]" value="2" <?php
+            if (isset($_POST['bu_id']) && in_array(2, $_POST['bu_id'])){
+              echo 'checked';
+            }
+            ?>/> CBS
+            <input type="checkbox" name="bu_id[]" value="3" <?php
+            if (isset($_POST['bu_id']) && in_array(3, $_POST['bu_id'])){
+              echo 'checked';
+            }
+            ?>/> WU
+            <input type="checkbox" name="bu_id[]" value="4" <?php
+            if (isset($_POST['bu_id']) && in_array(4, $_POST['bu_id'])){
+              echo 'checked';
+            }
+            ?>/> IND
+            <input class="button" type="submit" value="查询"/>
+        </form>
+        <ul>
+          <li>昵称: <?php
+            if( base64_encode(base64_decode($info['nickname']))){
+              $info['nickname'] = base64_decode($info['nickname']);
+            }else{
+              $info['nickname'] = $info['nickname'];
+            }
+            echo $info['nickname'];
+            ?></li>
+          <li>注册姓名: {$info['name']}</li>
+          <li>性别: {$info.sex==1?'男':'女'}</li>
+          <li>头像: <img class="avator" src="{$info.headimgurl}" />
+          <li>电话: {$info.tel}</li>
+          <li>邮箱: {$info.email}</li>
+          <li>公司: {$info.type_name}</li>
+          <li>职位: {$info.work_type_name}</li>
+          <li>积分: <a href="{:url('sorce', array('member_id'=> $info.id, 'name'=>$info['nickname']))}">{$info.integral}</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <ul>
+            <li><span></span>
+                <div>
+                    <div class="title">注册会为会员</div>
+                </div>
+                <span class="number"><span>{$info.create_time}</span></span>
+            </li>
+            {volist name="events" id="vo"}
+            <li><span></span>
+                <div>
+                    <div class="title">参加 {$vo.grouping_name} 活动 / {$bu_ids[$vo['bu_id']]}</div>
+                </div>
+                <span class="number"><span>{$vo.creater_time}</span></span>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+    
+    </div>
+    <script src="/glf/public/static/admin/js/jquery.min.js?v=2.1.4"></script>
+</body>
+</html>

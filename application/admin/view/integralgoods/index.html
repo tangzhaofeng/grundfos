@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title></title>
+
+</head>
+{include file="public/header"}
+<body>
+<style>
+	li{list-style: none;}
+	.weui_cells {
+		border-right: 1px solid #d9d9d9;
+		width: 14%;
+		min-width : 200px;
+		height: 100%;
+		float:left;
+	}
+	.content_right{
+		width: 86%;
+		height:98%;
+		position: absolute;
+		left: 14%;
+	}
+</style>
+
+<div class="weui_cells">
+	<div class="weui_cells_title">产品类别列表</div>
+	{volist name="department" id="vo"  key="k"}
+		<div class="weui_cell" data-url="{$url}?bu_id={$vo.id}&type='goods_list'" {if condition="$vo.id eq input('param.bu_id')"} style="background:#eee"{/if} >
+			<div class="weui_cell_hd"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAVFBMVEXx8fHMzMzr6+vn5+fv7+/t7e3d3d2+vr7W1tbHx8eysrKdnZ3p6enk5OTR0dG7u7u3t7ejo6PY2Njh4eHf39/T09PExMSvr6+goKCqqqqnp6e4uLgcLY/OAAAAnklEQVRIx+3RSRLDIAxE0QYhAbGZPNu5/z0zrXHiqiz5W72FqhqtVuuXAl3iOV7iPV/iSsAqZa9BS7YOmMXnNNX4TWGxRMn3R6SxRNgy0bzXOW8EBO8SAClsPdB3psqlvG+Lw7ONXg/pTld52BjgSSkA3PV2OOemjIDcZQWgVvONw60q7sIpR38EnHPSMDQ4MjDjLPozhAkGrVbr/z0ANjAF4AcbXmYAAAAASUVORK5CYII=" alt="" style="width:20px;margin-right:5px;display:block"></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<p>{$vo.bu_name}</p>
+			</div>
+		</div>
+	{/volist}
+</div>
+
+
+<div style="width:100% !important;height:850px;text-align:center;">
+	<div id="loading" style="position: absolute;left: 50%;top: 45%;z-index: 99;padding: 20px;">
+		<p>
+			<img src="__STATIC__/admin/js/plugins/layer/skin/default/loading-0.gif" width="50xp"  /><br/>
+			<font style="height:30px;vartical-algin:center;padding-left:5px"> 正在加载中，请稍等...</font>
+		</p>
+	</div>
+	<div class="content_right" >
+		<iframe name="childFrame" id="reportIframe" src="{$url}?type='goods_list&bu_id=4'"style="width:100%;height:100%;border:none"></iframe>
+	</div>
+</div>
+
+<script src="__STATIC__/js/zepto.min.js"></script>
+<script>
+    //打开iframe
+    $(function(){
+        $(".weui_cells .weui_cell").eq(0).css({"background":"#eee"});
+        $("#reportIframe").load(function(){
+            $("#loading").css("display","none");
+        });
+    })
+
+    $(".weui_cells .weui_cell").on("click",function(){
+        $(this).siblings().css({"background":"#fff"});
+        $(this).css({"background":"#eee"});
+        $("iframe").attr("src", $(this).attr("data-url"));
+
+        $("#loading").css("display","block");
+        $("#reportIframe").load(function(){
+            $("#loading").css("display","none");
+        });
+
+    })
+</script>
+
+
+</body>
+</html>
+
+
+

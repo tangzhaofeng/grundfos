@@ -1,0 +1,190 @@
+{include file="public/header"}
+<style >
+.img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+.img_wrap { overflow: hidden;height: 110px;width: 180px;position: relative;}
+.img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+.form-group-col-2 .form-cont{padding-left: 1px !important;}
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+<!--添加或者修改的弹框-->
+   <div class="content">   
+       <div class="weui_dialog_hd">
+           <a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+           <span class="weui_dialog_title">发送推送 </span>
+       </div>
+       
+   
+       <form id="myform" class="parsley-validate " onsubmit="return false" method="post" id="form" data-parsley-validate >
+
+
+           <div class="weui_cell" >
+               <div class="weui_cell_hd"><label for="" class="weui_label">推送类型:</div>
+               <div class="weui_cell_bd weui_cell_primary">
+
+                       <label class="checkbox-inline">
+                           <input type="radio" name="type" id="inlineCheckbox1"  checked="checked" value="1">文本
+                       </label>
+
+                       <label class="checkbox-inline">
+                           <input type="radio" name="type" id="inlineCheckbox1" value="3">图片
+                       </label>
+
+               </div>
+           </div>
+
+
+           <input type="hidden"  name="title_name" value="">
+
+           <div class="weui_cell" id="media" style="margin-top:20px" >
+               <div class="weui_cell_hd"><label for="" class="weui_label">图片 <span class="zn"></span>:</label></div>
+               <div class="weui_cell_bd weui_cell_primary">
+                   <div class="img_wrap">
+                       <img src="__STATIC__/images/icon/default_img.png" id="list_img_show_upload_img">
+                       <input type="file" class="list_img_" id="file_upload_img">
+                   </div>
+                   <p class="f-gray"><i class="icon icon-40 f20 "></i>图片格式PNG\JPEG\JPG\GIF ,最大 2M</p>
+                   <input type="text" name="media" id="list_img_upload_img" value="" style="display: none">
+               </div>
+           </div>
+
+
+           <script>
+               $(function () {
+                   $(document).ready(function() {
+                       $('#template_info').hide()
+                       $('#is_template_class').hide()
+                       $('#media').hide()
+                   });
+
+                   $('input[name=type]').click(function () {
+                       if ($(this).val() ==1){
+                           $('#media').hide()
+                           $('#template_info').hide()
+                           $('#is_template_class').hide()
+                           $('#text_content').show()
+                       }else{
+                           $('#text_content').hide()
+                           $('#template_info').hide()
+                           $('#is_template_class').hide()
+                           $('#media').show()
+                       }
+                   })
+               });
+           </script>
+
+           <div class="weui_cell" id="text_content">
+               <div class="weui_cell_hd"><label class="weui_label">发送内容</label></div>
+               <div class="weui_cell_bd weui_cell_primary">
+                   <div class="fs-wrap Personal_role" style="width:500px;" >
+                       <textarea class="form-control" name="content" rows="3"></textarea>
+                   </div>
+               </div>
+
+           </div>
+
+           <input type="hidden" name="live_id" id="live_id" value="{$live_id}">
+           <div class="form-group-col-2">
+               <div class="form-label"></div>
+               <div class="form-cont">
+                   <input type="submit" class="btn btn-primary" id="submit" value="submit" style="margin: 30px 0;margin-left: 1px;"/>
+               </div>
+           </div> 
+       </form>
+   </div>   
+
+   <div class="mask" style="display:none">
+       <div class="weui_mask weui_mask_visible" id="overlay"></div>
+       <style type="text/css">.weui_dialog_ft a {display: block !important;width: 50% !important;float: left;}</style>
+       <div class="weui_dialog weui_dialog_visible" id="easyDialogBox">
+           <div class="weui_dialog_hd"><strong class="weui_dialog_title">tip</strong></div>
+           <div class="weui_dialog_bd"><i class="weui_icon_success"></i> <span class="my_tip">Created english document success</span></div>
+           <div class="weui_dialog_ft all"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog primary" style="width: 100% !important;">Back</a></div>
+           <div class="weui_dialog_ft only"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog default">Back</a><a href="javascript:;" id="easyDialogYesBtn" class="weui_btn_dialog primary">Create English document</a></div>
+       </div>
+   </div>
+   
+<!--<script src="__STATIC__/js/zepto.min.js"></script>	-->
+<!--<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>-->
+<!--<script src="__STATIC__/plugins/wysiwyg/external/jquery.hotkeys.js"></script>-->
+<!--<script src="__STATIC__/plugins/twitter-bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script src="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.js"></script>-->
+<!--<link href="__STATIC__/plugins/wysiwyg/index.css" rel="stylesheet">-->
+<!--<script src="__STATIC__/plugins/wysiwyg/bootstrap-wysiwyg.js"></script>	-->
+<script src="__STATIC__/js/parsley.js"></script>
+
+<script>
+
+//表单验证成功后ajax提交保存
+var is_validate =  false; //表单的验证情况 默认验证失败
+$('.parsley-validate').parsley().on('form:success', function() {
+   var is_validate = true;
+   document.getElementById("submit").disabled = false;
+   if(submited_language=='all'){
+       alert("Both english document and chinese document had been submited, thanks!"); return false;
+   }
+   ajax_saveData(); //提交数据
+});
+
+var submited_language = null;
+//ajax提交保存数据
+var HTTP_REFERER = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+var ajax_saveData = function(){
+   $.ajax({
+       cache: false,
+       type: "POST",
+       url:"{:url('sendmessage')}",
+       data:$('#myform').serialize(),// 你的formid
+       async: false,
+       success: function(data) {
+           data = JSON.parse(data);
+           console.log(data)
+           if(data.code == 1 ){ //success
+                alert('推送成功');
+                window.location.href = HTTP_REFERER;
+           }else{
+                alert(data.msg);
+           }
+       }
+   })
+}
+
+$('.list_img_').on('change',function(){
+   var fd = new FormData();
+   fd.append('file', $('.list_img_')[0].files[0]);
+   $.ajax({
+       url: "{:url('common/upload')}",
+       type: "POST",
+       processData: false,
+       contentType: false,
+       data: fd,
+       success: function (result){
+           if(result){
+               $('#list_img_upload_img').val(result.url);
+               $('#list_img_show_upload_img').attr("src",result.url);
+           }else{
+               alert('The system is busing please try again later, thanks!');
+           }
+       }
+   },'json');
+});
+
+</script>
+
+<link href="__STATIC__/js/fSelect/fSelect.css" rel="stylesheet" type="text/css">
+<script src="__STATIC__/js/fSelect/fSelect.js?r=rand()"></script>
+<script>
+$(function() {
+   $('.select').fSelect();
+});
+</script>
+
+
+
+
+
+
+

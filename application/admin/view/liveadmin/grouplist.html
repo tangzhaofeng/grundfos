@@ -1,0 +1,89 @@
+<!doctype html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<style>
+select {min-width: 20px !important;border-radius: 3px;}
+</style>
+<body>
+	<!--header start -->
+	{include file="public/header"}
+    <!--header end-->
+    
+    <div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('sendmessage',['live_id'=>$live_id])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>推送消息</a>
+				<a href="{:url('getLivetalk',['live_id'=>$live_id])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>导出聊天记录</a>
+			</div>
+		</div>
+	</div>
+
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All,分享次数：{$forward}</span>
+		<span class="history-list-tips">All loaded, Total:{$total} items</span>
+	</div>
+
+
+	<table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+		<tr>
+			<th>id</th>
+			<th>昵称</th>
+			<th>注册姓名</th>
+			<th>电话</th>
+			<th>注册时间</th>
+			<th>邮箱</th>
+			<th>公司</th>
+			<th>通过小程序</th>
+			<th>是否观看直播</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		{if condition="($total > 0) "}
+		{volist name="livegroup" id="vo"}
+		<tr>
+			<td>{$vo.member_id}</td>
+			<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+				<?php echo base64_decode($vo['nickname'])?>
+			</td>
+			<td>{$vo['name']}</td>
+			<td>{$vo['tel']}</td>
+			<td>{$vo['create_time']}</td>
+			<td>{$vo.email}</td>
+			<td>{$vo.company_name}</td>
+			{if $vo.is_createByapp}
+				<td>是</td>
+			{else /}
+				<td>否</td>
+			{/if}
+			{if $vo.watchtime}
+				<td>是</td>
+			{else /}
+				<td>否</td>
+			{/if}
+		</tr>
+		{/volist}
+		{else /}
+		<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+			<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No record been found</p></div>
+		</div>
+		{/if}
+		</tbody>
+	</table>
+	<div class="pages">{$page}</div>
+	<!--footer start -->
+	{include file="footer"}
+	<!--footer end-->
+
+
+</body>
+</html>
+
+
+
+

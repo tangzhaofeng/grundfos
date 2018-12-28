@@ -1,0 +1,82 @@
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">  <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+    </head>
+
+    <body>
+        <div id="container" style="min-width:400px;height:400px"></div>
+        <script>
+            // JS 代码 
+			/**
+  * Highcharts 在 4.2.0 开始已经不依赖 jQuery 了，直接用其构造函数既可创建图表
+ **/
+var chart = new Highcharts.Chart('container', {
+	chart: {
+            //type: 'area'  // column , pie , area
+     },
+    title: {
+        text: 'Data statistics',
+        x: -20
+    },
+    subtitle: {
+        text: 'Data sources: https://duo-uat.kuehne-nagel.com/',
+        x: -20
+    },
+    xAxis: {
+        categories: {:json_encode($cnzz.day)}
+    },
+    yAxis: {
+        title: {
+            text: 'Passengers '
+        },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#c00'
+        }]
+    },
+    tooltip: {
+        valueSuffix: 'Passengers'
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle',
+        borderWidth: 0
+    },
+    series: {:json_encode($cnzz.pvuv)}
+});
+
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+​

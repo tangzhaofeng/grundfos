@@ -1,0 +1,187 @@
+<!doctype html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<body>
+	<!--header start -->
+	{include file="public/header"}
+	<!--header end-->
+	
+    			<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			<div class="list-grid-switch list-switched-on">
+				<a node-type="list-switch" style="display: none;" class="list-switch" href="javascript:void(0)">
+				<span class="icon icon-89"></span>
+				</a>
+				<a node-type="grid-switch" class="grid-switch" href="javascript:void(0)"><span class="icon icon-93"></span></a>
+			</div>
+		
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('add')}" style="margin-top:15px;" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>Create</a>
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips">Loading complete, Total:{$return['total']} items</span>
+	</div>
+
+
+
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+                <th ><i class="weui_icon_circle"></i></th>
+				<th  data-field="username" style="border-left:2px solid #fff">Role</th>
+				<th>Status</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+		<tbody>	
+			{if condition="($return['total'] > 0) "} 
+				{volist name="return['rows']" id="vo"}
+					<tr>
+                        <td ><i class="weui_icon_circle"></i> </td>	
+						<td  style="border-left:2px solid #fff">{$vo.rolename}</td>
+						<th><span class="icon icon-66"></span></th>
+						<th>
+                            <a href="{:url('edit',array('id'=>$vo.id))}" id="edit" data-id="{$vo.id}"><span class="icon icon-115" title="Edit">Edit</span></a>
+							<a href="{:url('delete',array('id'=>$vo.id))}" id="delete" data-id="{$vo.id}" ><span class="icon icon-23"  title="Delete">Delete</span></a>
+							<a href="javascript:giveQx({$vo.id});"><span class="icon icon-5"></span>Authority Distribution</a>
+						</th>
+					</tr>  
+				{/volist}
+			{else /}	
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No recored been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>
+	</table>
+	<div class="pages">{$return['page']}</div>
+
+
+
+
+
+<!-- 角色分配 -->
+<div class="zTreeDemoBackground left" style="display: none" id="role">
+    <input type="hidden" id="nodeid">
+    <div class="form-group">
+        <div class="col-sm-5 col-sm-offset-2">
+            <ul id="treeType" class="ztree"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-4" style="margin-bottom: 15px">
+            <a href="javascript:;" id="postform" class="weui_btn weui_btn_mini bg-blue f20">submit</a>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+.col-sm-4{text-align: center}
+.left{float: none !important;}
+.ztree{margin: 0 auto !important}
+</style>
+
+<script src="__STATIC__/admin/js/jquery.min.js?v=2.1.4"></script>
+<script src="__STATIC__/admin/js/plugins/layer/layer.min.js"></script>
+<link rel="stylesheet" href="__STATIC__/admin/js/plugins/zTree/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="__STATIC__/admin/js/plugins/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/js/plugins/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/js/plugins/zTree/jquery.ztree.exedit-3.5.js"></script>
+<script type="text/javascript">
+
+    var index = '';
+    var index2 = '';
+    //分配权限
+    function giveQx(id){
+        $("#nodeid").val(id);
+        //加载层
+        index2 = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
+
+        //获取权限信息
+        $.getJSON('./giveAccess', {'type' : 'get', 'id' : id}, function(res){
+            layer.close(index2);
+            if(res.code == 1){
+                zNodes = JSON.parse(res.data);  //将字符串转换成obj
+
+                //页面层
+                index = layer.open({
+                    type: 1,
+                    area:['350px', '600px'],
+                    title:'Permissions allocation',
+                    skin: 'layui-layer-demo', //加上边框
+                    content: $('#role')
+                });
+                //设置位置
+                layer.style(index, {
+                    top: '150px'
+                });
+
+                //设置zetree
+                var setting = {
+                    check:{
+                        enable:true
+                    },
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    }
+                };
+
+                $.fn.zTree.init($("#treeType"), setting, zNodes);
+                var zTree = $.fn.zTree.getZTreeObj("treeType");
+                zTree.expandAll(true);
+            }else{
+                layer.alert(res.msg);
+            }
+
+        });
+    }
+    //确认分配权限
+    $("#postform").click(function(){
+        var zTree = $.fn.zTree.getZTreeObj("treeType");
+        var nodes = zTree.getCheckedNodes(true);
+        var NodeString = '';
+        $.each(nodes, function (n, value) {
+            if(n>0){
+                NodeString += ',';
+            }
+            NodeString += value.id;
+        });
+        var id = $("#nodeid").val();
+        //写入库
+        $.post('./giveAccess', {'type' : 'give', 'id' : id, 'rule' : NodeString}, function(res){
+            layer.close(index);
+            if(res.code == 1){
+            }else{
+                alert(res.msg);
+            }
+
+        }, 'json')
+    })
+</script>
+</body>
+</html>
+
+	<!--footer start -->
+	{include file="footer"}
+	<!--footer end-->

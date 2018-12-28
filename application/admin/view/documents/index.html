@@ -1,0 +1,126 @@
+<!doctype html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+</head>
+<style>
+select {min-width: 20px !important;border-radius: 3px;}
+</style>
+<body>
+	<!--header start -->
+	{include file="public/header"}
+	<!--header end-->
+	
+		<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+			<div class="list-grid-switch list-switched-on">
+				<select name="language"  class="list-switch" >
+					<?php $language = getLanguage(-1);?>
+						<option value="0" {if condition="0 eq $return['language']"}selected="selected"{/if} >All</option>
+					{volist name="language" id="vo"  key="k" }
+						<option value="{$k}" {if condition="$k eq $return['language']"}selected="selected"{/if} >{$vo}</option>
+					{/volist}
+				</select>
+			</div>
+		
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText"  value="{$return['searchText']?=trim($return['searchText'])} " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+						<input type="hidden" value="{$return['language']}" name="language" id="language"/>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('add')}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>Add</a>
+				<a href="{:url('index',['export'=>true])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-2"></i>Export</a>
+			</div>
+		</div>
+	</div>
+	
+	<div node-type="module-history-list" class="module-history-list">
+		<span class="history-list-dir">All</span>
+		<span class="history-list-tips">All loaded, Total:{$return['total']} items</span>
+	</div>
+
+
+	<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>
+	<link href="__STATIC__/js/fSelect/fSelect.css" rel="stylesheet" type="text/css">
+	<script src="__STATIC__/js/fSelect/fSelect.js?r=rand()"></script>
+	<script>
+	$(function() {
+		$('.select').fSelect();
+	});
+	</script>
+
+    <table class="weui-table weui-border-tb" id="cusTable">
+		<thead>
+			<tr>
+				<th><i class="weui_icon_circle"></i></th>
+				<th  style="border-left:2px solid #fff">Cover</th>
+				<th>Title</th>
+				<th>Occupied Space</th>
+				<th>Views</th>
+				
+				<th>Language</th>
+				<th>Customers</th>
+				<th>Create Date</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+		<tbody>	
+			{if condition="($return['total'] > 0) "} 
+				{volist name="return['rows']" id="vo"}
+					<tr>
+						<td><i class="weui_icon_circle"></i></td>
+						<td data-field="{$vo.id}"  style="border-left:2px solid #fff">
+							{if condition="$vo.poster"} 
+								<img src="{$vo.poster}" style="width: 60px"/> 
+							{else /}
+								<img src="__STATIC__/images/icon/default_img.png" style="width: 60px"/> 
+							{/if}
+						</td>
+						<td>{$vo.title}</td>
+						<td>{$vo.file_size}</td>
+						<td>{$vo.views}</td>
+						
+						
+						<td>{:getLanguage($vo.language-1)}</td>
+						<td style="width: 100px;">
+							<div class="fs-wrap Personal_role"  >
+								<select class="select hidden" multiple="multiple">
+									<optgroup label="Customers">
+										{:customerOption($vo.customerCode)}
+									</optgroup>
+								</select>
+							</div>
+						</td>
+						<td>{:Date("Y-m-d", strtotime($vo.create_time))}</td>
+						<td>
+							<a href="{:url('edit',array('id'=>$vo.id))}"><span class="icon icon-115" title="Edit">Edit</span></a>
+							<a href="{:url('delete',array('id'=>$vo.id))}" id="delete" ><span class="icon icon-23"  title="delete">Delete</span></a>
+						</td>
+					</tr>  
+				{/volist}
+			{else /}	
+				<div class="weui_msg hide" id="msg3" style="display: block; opacity: 1;">
+					<div class="weui_msg_box"><p><i class="icon icon-40 f20 f-green"></i>No record been found</p></div>
+				</div>	
+			{/if}	
+		</tbody>		
+	</table>
+	<div class="pages">{$return['page']}</div>
+	<!--footer start -->
+	{include file="footer"}
+	<!--footer end-->
+	
+
+</body>
+</html>
+
+

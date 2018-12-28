@@ -1,0 +1,502 @@
+{include file="public/header"}
+<style >
+    .content {padding-top: 30px !important;}
+    .img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+    .img_wrap { overflow: hidden;height: 100px;width: 100px;position: relative;}
+    .img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+    .form-group-col-2 .form-cont{padding-left: 1px !important;}
+
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+
+<link rel="stylesheet" href="__STATIC__/admin/js/jquery.datetimepicker.css">
+<!-- <link rel="stylesheet" href="__STATIC__/admin/css/select2.min.css"> -->
+
+<!--<script src="__STATIC__/admin/js/jquery.datetimepicker.min.js"></script>-->
+<script src="__STATIC__/admin/js/jquery.datetimepicker.full.min.js"></script>
+<!-- <script src="__STATIC__/admin/js/select2.min.js"></script> -->
+
+<!--
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+-->
+
+
+
+
+<!--添加或者修改的弹框-->
+<div class="content">
+    <div class="weui_dialog_hd">
+        <a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+        <span class="weui_dialog_title">Create 活动 </span>
+    </div>
+    <form id="myform" class="parsley-validate " onsubmit="return false" method="post" id="form" data-parsley-validate >
+
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">活动名称:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="form-boxed form-control" type="text" name="title" style="max-width:40%" value="" placeholder="活动标题" data-parsley-trigger="change" required="required" />
+            </div>
+        </div>
+
+        <div class="weui_cell" style="margin-top:20px" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">活动海报图片 <span class="zn"></span>:</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <div class="img_wrap">
+                    <img src="__STATIC__/images/icon/default_img.png" id="show_upload_img">
+                    <input type="file" id="file_upload_img">
+                </div>
+                <p class="f-gray"><i class="icon icon-40 f20 "></i>线下:图片格式JPG, PNG ,最大 1M, 尺寸比例: 250X160px</p>
+                <p class="f-gray"><i class="icon icon-40 f20 "></i>线上:图片格式JPG, PNG ,最大 1M, 尺寸比例: 350X210px</p>
+                <input type="text" name="img" id="upload_img" value="" required="required" style="display: none">
+            </div>
+        </div>
+
+        <div class="weui_cell" style="margin-top:20px" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">列表页图片 <span class="zn"></span>:</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <div class="img_wrap">
+                    <img src="__STATIC__/images/icon/default_img.png" id="list_img_show_upload_img">
+                    <input type="file" class="list_img_" id="file_upload_img">
+                </div>
+                <p class="f-gray"><i class="icon icon-40 f20 "></i>图片格式JPG, PNG ,最大 1M, 尺寸比例: 750pxX460px</p>
+                <input type="text" name="list_img" id="list_img_upload_img" value="" required="required" style="display: none">
+            </div>
+        </div>
+
+        <div class="weui_cell" id="city">
+            <div class="weui_cell_hd"><label for="" class="weui_label">活动地点:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="form-boxed form-control" type="text" name="city" style="max-width:40%" value="" placeholder="活动地点" data-parsley-trigger="change" required="required" />
+            </div>
+        </div>
+
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">活动开始时间:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input type="text" name="time" style="width: 128px;" value="" id="datetimepicker"/><br><br>
+            </div>
+        </div>
+
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">活动结束时间:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input type="text" name="time_end" style="width: 128px;" value="" id="datetimepickerstop"/><br><br>
+            </div>
+        </div>
+        <script>
+
+            $('#datetimepicker').datetimepicker({
+                dayOfWeekStart : 1,
+                lang:'ch',
+                startDate:	new Date(),
+                format:'Y-m-d H:i',
+                allowDateRe :{format:'Y-m-d',allowDateRe:'\d{4}-(03-31|06-30|09-30|12-31)' }     ,        // 设置正则表达式检查日期 如：{format:'Y-m-d',allowDateRe:'\d{4}-(03-31|06-30|09-30|12-31)' }
+                timepickerScrollbar: true,  // ture设置timepicker显示滑动条  false设置timepicker不显示滑动条
+                todayButton: true,            // ture显示今天按钮  false不显示今天按钮   位置在datepicker左上角
+                prevButton: true,              // ture显示上一月按钮  false不显示上一月按钮   位置在datepicker左上角
+                nextButton: true,          // ture显示下一月按钮  false不显示下一月按钮   位置在datepicker又上角
+                scrollMonth: true
+
+            });
+            $('#datetimepicker').datetimepicker({value:new Date(),step:10});
+            $.datetimepicker.setLocale('ch')
+
+
+            $('#datetimepickerstop').datetimepicker({
+                dayOfWeekStart : 1,
+                lang:'ch',
+                startDate:	new Date(),
+                format:'Y-m-d H:i',
+                allowDateRe :{format:'Y-m-d',allowDateRe:'\d{4}-(03-31|06-30|09-30|12-31)' }     ,        // 设置正则表达式检查日期 如：{format:'Y-m-d',allowDateRe:'\d{4}-(03-31|06-30|09-30|12-31)' }
+                timepickerScrollbar: true,  // ture设置timepicker显示滑动条  false设置timepicker不显示滑动条
+                todayButton: true,            // ture显示今天按钮  false不显示今天按钮   位置在datepicker左上角
+                prevButton: true,              // ture显示上一月按钮  false不显示上一月按钮   位置在datepicker左上角
+                nextButton: true,          // ture显示下一月按钮  false不显示下一月按钮   位置在datepicker又上角
+                scrollMonth: true
+
+            });
+            $('#datetimepickerstop').datetimepicker({value:new Date(),step:10});
+            $.datetimepicker.setLocale('ch')
+        </script>
+
+
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">bu选择:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <ul>
+
+                    {volist name="bulist" id = "vo" key = "key"}
+
+                    <label class="checkbox-inline">
+                        <input type="radio" name="bu_id[]" id="inlineCheckbox1" value="{$vo.id}">{$vo.bu_name}
+                    </label>
+
+
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $('#money').hide()
+                $('#photograph').hide()
+                $('#gallery').hide()
+                $('#is_gps').hide()
+                $('#onone').hide()
+
+                $('input[name = photograph_des]').removeAttr('required');
+                $('input[name = photograph_img_sum]').removeAttr('required');
+                $('input[name = gallery_des]').removeAttr('required');
+                $('input[name = gallery_img_sum]').removeAttr('required');
+            });
+            $(function () {
+
+                $('#lineRadio2').click(function () {
+                    $('#city').hide()
+                    $('#money').show()
+                    $('#photograph').show()
+                    $('#gallery').show()
+                    $('#is_gps').show()
+                    $('#onone').show()
+
+                    isrequired(2)
+                })
+
+                $('#lineRadio1').click(function () {
+                    $('#city').show()
+                    $('#money').hide()
+                    $('#photograph').hide()
+                    $('#gallery').hide()
+                    $('#is_gps').hide()
+                    $('#onone').hide()
+
+                    isrequired(1)
+                })
+
+
+                $(this).on('click','#inlineCheckbox1',function () {
+                    // console.log($(this).prop("checked"));
+
+                    if ($(this).prop("checked")) {
+
+                        $(this).parent().next().find("select").removeAttr("disabled");
+                        if ($(this).val() == 1){
+                            $('#money').show()
+                        }
+                    }else{
+
+                        $(this).parent().next().find("select").attr("disabled",true);
+                        if ($(this).val() == 1){
+                            $('#money').hide()
+                        }
+                    }
+                })
+                function isrequired($is){
+                    if($is == 1){
+                        $('input[name = city]').attr('required','required');
+
+                        $('input[name = photograph_des]').removeAttr('required');
+                        $('input[name = photograph_img_sum]').removeAttr('required');
+                        $('input[name = gallery_des]').removeAttr('required');
+                        $('input[name = gallery_img_sum]').removeAttr('required');
+                    }else{
+                        $('input[name = city]').removeAttr('required');
+
+                        $('input[name = photograph_des]').attr('required','required');
+                        $('input[name = photograph_img_sum]').attr('required','required');
+                        $('input[name = gallery_des]').attr('required','required');
+                        $('input[name = gallery_img_sum]').attr('required','required');
+                    }
+                }
+            })
+        </script>
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">是否公开:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <label class="radio-inline">
+                    <input type="radio" name="is_open" checked="checked" id="inlineRadio1" value="1"> 公开
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_open" id="inlineRadio2" value="2"> 私密
+                </label>
+            </div>
+        </div>
+
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">活动摘要:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <textarea class="form-control" name="abstract" placeholder="活动摘要" style="width: 500px" rows="5"></textarea>
+            </div>
+        </div>
+
+          <div class="weui_cell">
+            <div class="weui_cell_hd"><label for="" class="weui_label">活动介绍 <span class="zn"></span>:</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+
+                <!--<textarea name="content1" style="width:700px;height:200px;visibility:hidden;"></textarea>-->
+                <!--<br />-->
+
+                <div class="img_wrap">
+                    <img src="__STATIC__/images/icon/default_img.png" id="content_img_show_upload_img">
+                    <input type="file" class="list_img_content" id="file_upload_img">
+                </div>
+                <p class="f-gray"><i class="icon icon-40 f20 "></i>请按规定上传活动详情图</p>
+                <input type="text" name="content" id="content_img_upload_img" value="" required="required" style="display: none">
+
+            </div>
+            <!--<input type="hidden" name="content" id="content">-->
+        </div>
+
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">转发描述:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <textarea class="form-control" name="forward_text" placeholder="转发描述" style="width: 500px" rows="5"></textarea>
+            </div>
+        </div>
+
+
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label for="" class="weui_label">线下或线上:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <label class="radio-inline">
+                    <input type="radio" name="line" checked="checked" id="lineRadio1" value="1"> 线下
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="line" id="lineRadio2" value="2"> 线上
+                </label>
+            </div>
+        </div>
+
+        <div class="weui_cell" id="money">
+            <div class="weui_cell_hd"><label for="" class="weui_label">红包金额:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="form-boxed form-control" type="text" name="money" style="max-width:40%;width: 128px;" value=""  placeholder="只有RBS有红包" data-parsley-trigger="change"  />
+            </div>
+        </div>
+
+        <div class="weui_cell" id="integral">
+            <div class="weui_cell_hd"><label for="" class="weui_label">积分:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="form-boxed form-control" type="text" name="integral" style="max-width:40%;width: 128px;" value=""  placeholder="积分" data-parsley-trigger="change" required="required" />
+            </div>
+        </div>
+
+        <div class="weui_cell" id="onone">
+            <div class="weui_cell_hd"><label for="" class="weui_label">是否多次上传:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <label class="radio-inline">
+                    <input type="radio" name="onone" checked="checked" id="onone1" value="1"> 不允许
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="onone" id="onone1" value="2"> 允许
+                </label>
+            </div>
+        </div>
+
+        <div class="weui_cell" id="photograph">
+            <div class="weui_cell_hd"><label for="" class="weui_label">拍照上传:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+
+                <label class="radio-inline">
+                    <input type="radio" name="photograph" checked="checked" id="lineRadi" value="1"> 开启
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="photograph" id="lineRadi" value="2"> 关闭
+                </label>
+                <label class="radio-inline">活动说明: </label>
+                <label class="radio-inline">
+                    <input class="form-boxed form-control" type="text" name="photograph_des" style="" value=""  placeholder="" data-parsley-trigger="change" required="required" />
+                </label>
+                <label class="radio-inline">照片数量: </label>
+                <label class="radio-inline"><input class="form-boxed form-control" type="text" name="photograph_img_sum" style="max-width:40%;width: 150px;" value=""  placeholder="" data-parsley-trigger="change" required="required" /> </label>
+            </div>
+        </div>
+
+        <div class="weui_cell" id="gallery">
+            <div class="weui_cell_hd"><label for="" class="weui_label">图库上传:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <label class="radio-inline">
+                    <input type="radio" name="gallery" checked="checked" id="lineRa" value="1"> 开启
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="gallery" id="lineRa" value="2"> 关闭
+                </label>
+                <label class="radio-inline">活动说明: </label>
+                <label class="radio-inline"><input class="form-boxed form-control" type="text" name="gallery_des" style="" value=""  placeholder="" data-parsley-trigger="change" required="required" /> </label>
+                <label class="radio-inline">照片数量: </label>
+                <label class="radio-inline"><input class="form-boxed form-control" type="text" name="gallery_img_sum" style="max-width:40%;width: 150px;" value=""  placeholder="" data-parsley-trigger="change" required="required" /> </label>
+
+            </div>
+        </div>
+
+        <div class="weui_cell" id="is_gps">
+            <div class="weui_cell_hd"><label for="" class="weui_label">是否同步当前位置:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <label class="radio-inline">
+                    <input type="radio" name="is_gps" checked="checked" id="inlineRadio1" value="1"> 开启
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_gps" id="inlineRadio2" value="2"> 关闭
+                </label>
+            </div>
+        </div>
+
+        <div class="weui_cell" >
+            <div class="weui_cell_hd"><label for="" class="weui_label">是否开启:</div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <label class="radio-inline">
+                    <input type="radio" name="status" checked="checked" id="inlineRadio1" value="1"> 开启
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="status" id="inlineRadio2" value="2"> 关闭
+                </label>
+            </div>
+        </div>
+
+        <!--<p style="display:block;margin-left:152px" class="f-gray"><i class="icon icon-40 f20 "></i>Name words maximum 100</p>-->
+        <div class="form-group-col-2">
+            <div class="form-label"></div>
+            <div class="form-cont">
+                <input type="submit" class="btn btn-primary" id="submit" value="submit" style="margin: 30px 0;margin-left: 1px;"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<link rel="stylesheet" href="__STATIC__/kindeditor/themes/default/default.css" />
+<link rel="stylesheet" href="__STATIC__/kindeditor/plugins/code/prettify.css" />
+<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="__STATIC__/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="__STATIC__/kindeditor/plugins/code/prettify.js"></script>
+
+<script src="__STATIC__/js/parsley.js"></script>
+
+
+<script>
+
+   var editor;
+    //绑定数据
+    // function bindData(data) {
+    // var options = {
+    //     cssPath : '__STATIC__/kindeditor/plugins/code/prettify.css',
+    //     uploadJson: "{:url('Common/upload')}",
+    //     fileManagerJson: '/Scripts/KindEditor/asp.net/file_manager_json.ashx',
+    //     allowFileManager: true,
+    //     afterBlur: function () {
+    //         this.sync();
+    //     },
+    //     afterCreate: function () {
+    //         this.sync();
+    //     }
+    // }
+    // editor = KindEditor.create('textarea[name="content1"]', options);
+    // prettyPrint();
+
+    //表单验证成功后ajax提交保存
+    var is_validate =  false; //表单的验证情况 默认验证失败
+    $('.parsley-validate').parsley().on('form:success', function() {
+        var is_validate = true;
+
+        // $("#content").val(editor.html());
+
+        document.getElementById("submit").disabled = false;
+        ajax_saveData(); //提交数据
+    });
+
+    //ajax提交保存数据
+    var HTTP_REFERER = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+    var ajax_saveData = function(){
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url:"{:url('add')}",
+            data:$('#myform').serialize(),// 你的formid
+            async: false,
+            success: function(data) {
+                if(data.code == 1 ){ //success
+                    window.location.href = HTTP_REFERER;
+                }else{
+                    alert(data.msg);
+                }
+            }
+        })
+    }
+
+</script>
+
+
+<script>
+    //上传图片
+    $('#file_upload_img').on('change',function(){
+        var fd = new FormData();
+        fd.append('file', $('#file_upload_img')[0].files[0]);
+        $.ajax({
+            url: "{:url('common/upload')}",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function (result){
+                if(result){
+                    $('#upload_img').val(result.url);
+                    $('#show_upload_img').attr("src",result.url);
+                }else{
+                    alert('The system is busing please try again later, thanks!');
+                }
+            }
+        },'json');
+    });
+
+
+    $('.list_img_').on('change',function(){
+        var fd = new FormData();
+        fd.append('file', $('.list_img_')[0].files[0]);
+        $.ajax({
+            url: "{:url('common/upload')}",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function (result){
+                if(result){
+                    $('#list_img_upload_img').val(result.url);
+                    $('#list_img_show_upload_img').attr("src",result.url);
+                }else{
+                    alert('The system is busing please try again later, thanks!');
+                }
+            }
+        },'json');
+    });
+
+
+    $('.list_img_content').on('change',function(){
+        var fd = new FormData();
+        fd.append('file', $('.list_img_content')[0].files[0]);
+        $.ajax({
+            url: "{:url('common/upload')}",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: fd,
+            success: function (result){
+                if(result){
+                    $('#content_img_upload_img').val(result.url);
+                    $('#content_img_show_upload_img').attr("src",result.url);
+                }else{
+                    alert('The system is busing please try again later, thanks!');
+                }
+            }
+        },'json');
+    });
+</script>
+
+
+
+

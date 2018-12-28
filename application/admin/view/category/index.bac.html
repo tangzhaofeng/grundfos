@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title></title>
+
+</head>
+{include file="public/header"}
+<body>
+<style>
+li{list-style: none;}
+.weui_cells {
+    border-right: 1px solid #d9d9d9;
+    width: 220px;
+    height: 100%;
+	float:left;
+}
+.content_right{
+	width: 75%;
+    position: absolute;
+    left: 220px;
+}
+</style>
+
+<div class="weui_cells">         
+    <div class="weui_cells_title">产品类别列表</div>
+	{volist name="department" id="vo"  key="k"}
+	<div class="weui_cell" {if condition="$vo.id eq input('param.department_id')"} style="background:#eee"{/if} >
+		<div class="weui_cell_hd"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAVFBMVEXx8fHMzMzr6+vn5+fv7+/t7e3d3d2+vr7W1tbHx8eysrKdnZ3p6enk5OTR0dG7u7u3t7ejo6PY2Njh4eHf39/T09PExMSvr6+goKCqqqqnp6e4uLgcLY/OAAAAnklEQVRIx+3RSRLDIAxE0QYhAbGZPNu5/z0zrXHiqiz5W72FqhqtVuuXAl3iOV7iPV/iSsAqZa9BS7YOmMXnNNX4TWGxRMn3R6SxRNgy0bzXOW8EBO8SAClsPdB3psqlvG+Lw7ONXg/pTld52BjgSSkA3PV2OOemjIDcZQWgVvONw60q7sIpR38EnHPSMDQ4MjDjLPozhAkGrVbr/z0ANjAF4AcbXmYAAAAASUVORK5CYII=" alt="" style="width:20px;margin-right:5px;display:block"></div>
+		<div class="weui_cell_bd weui_cell_primary">
+			<p><a href="{:url('index',['department_id'=>$vo.id])}">{$vo.bu_name}</p>
+		</div>
+	</div>
+	{/volist}
+</div>
+
+
+<div class="content_right" > 
+	<div class="module-toolbar g-clearfix">
+		<div class="prev-dom"></div>
+		<div class="default-dom">
+
+			<div class="bar-search">
+				<div class="form-box" node-type="form-box">
+					<form class="search-form clearfix" action="index" method="post">
+						<input class="search-query" name="searchText" value=" " type="text">
+						<span class="search-button">
+							<span class="icon icon-4"></span>
+						</span>
+					</form>
+				</div>
+			</div>
+			<div class="bar" style="white-space: nowrap; position: relative;">
+				<a href="{:url('add',['parent_id'=>0,'department_id'=>input('param.department_id')])}" class="weui_btn weui_btn_mini weui_btn_default"><i class="icon icon-36"></i>添加顶级分类</a>
+			</div>
+		</div>
+	</div>
+	{$data}
+</div>	
+	
+	
+</body>
+</html>
+
+
+

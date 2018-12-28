@@ -1,0 +1,247 @@
+{include file="public/header"}
+<style >
+	.img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+	.img_wrap { overflow: hidden;height: 110px;width: 180px;position: relative;}
+	.img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+	.form-group-col-2 .form-cont{padding-left: 1px !important;}
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+<!--添加或者修改的弹框-->
+<div class="content">
+	<div class="weui_dialog_hd">
+		<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+		<span class="weui_dialog_title">Create 关键字 </span>
+	</div>
+
+
+	<form id="myform" class="parsley-validate " onsubmit="return false" method="post" id="form" data-parsley-validate >
+		<input type="hidden" name="id" value="{$send.id}">
+		<div class="weui_cell" style="margin-top: 30px;">
+			<div class="weui_cell_hd"><label for="" class="weui_label">bu部门:</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				{volist name="bu" id="vo"}
+				<label class="checkbox-inline">
+
+					<input type="checkbox" id="inlineCheckbox1"
+						      <?php
+									$isin = in_array($vo['id'],$send['bu_id']);
+									if($isin){
+										echo 'checked="checked"';
+									}
+								?>
+						   name="bu_id[]" value="{$vo.id}"> {$vo.bu_name}
+
+				</label>
+				{/volist}
+			</div>
+		</div>
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label">关键字</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<div class="fs-wrap Personal_role" style="width: 200px;">
+					<input class="form-boxed form-control" type="text" name="key" value="{$send.key}" placeholder="关键字"  data-parsley-trigger="change" required="required">
+				</div>
+			</div>
+		</div>
+
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label">回复</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<div class="fs-wrap Personal_role" style="width: 500px" >
+					<textarea name="content" class="form-control" rows="6">{$send.content}</textarea>
+				</div>
+			</div>
+		</div>
+		<div class="form-group-col-2">
+			<div class="form-label"></div>
+			<div class="form-cont">
+				<input type="submit" class="btn btn-primary" id="submit" value="submit" style="margin: 30px 0;margin-left: 1px;"/>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="mask" style="display:none">
+	<div class="weui_mask weui_mask_visible" id="overlay"></div>
+	<style type="text/css">.weui_dialog_ft a {display: block !important;width: 50% !important;float: left;}</style>
+	<div class="weui_dialog weui_dialog_visible" id="easyDialogBox">
+		<div class="weui_dialog_hd"><strong class="weui_dialog_title">tip</strong></div>
+		<div class="weui_dialog_bd"><i class="weui_icon_success"></i> <span class="my_tip">Created english document success</span></div>
+		<div class="weui_dialog_ft all"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog primary" style="width: 100% !important;">Back</a></div>
+		<div class="weui_dialog_ft only"><a href="javascript:window.history.go(-1);" class="weui_btn_dialog default">Back</a><a href="javascript:;" id="easyDialogYesBtn" class="weui_btn_dialog primary">Create English document</a></div>
+	</div>
+</div>
+
+<script src="__STATIC__/js/zepto.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/jquery.hotkeys.js"></script>
+<script src="__STATIC__/plugins/twitter-bootstrap/js/bootstrap.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.js"></script>
+<link href="__STATIC__/plugins/wysiwyg/index.css" rel="stylesheet">
+<script src="__STATIC__/plugins/wysiwyg/bootstrap-wysiwyg.js"></script>
+<script src="__STATIC__/js/parsley.js"></script>
+
+<script>
+
+    //表单验证成功后ajax提交保存
+    var is_validate =  false; //表单的验证情况 默认验证失败
+    $('.parsley-validate').parsley().on('form:success', function() {
+        var is_validate = true;
+        document.getElementById("submit").disabled = false;
+        $("#describe").val( $("#editor").html() );
+        if(submited_language=='all'){
+            alert("Both english document and chinese document had been submited, thanks!"); return false;
+        }
+        ajax_saveData(); //提交数据
+    });
+
+    var submited_language = null;
+    //ajax提交保存数据
+    var HTTP_REFERER = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+    var ajax_saveData = function(){
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url:"{:url('edit')}",
+            data:$('#myform').serialize(),// 你的formid
+            async: false,
+            success: function(data) {
+                if(data.code == 1 ){ //success
+                    window.location.href = HTTP_REFERER;
+                }else{
+                    alert(data.msg);
+                }
+            }
+        })
+    }
+
+    //切换 weui_tab_nav all english chinese
+    $(".weui_nav_green").click(function(){
+        if($(this).hasClass("bg_green")){
+            return false;
+        }
+        var i = $(this).find("i").hasClass("weui_icon_success");
+        if(i){
+            alert("this document version had been createed success, cann't change thanks!")
+            return false;
+        }
+
+        //判断是否已经有部分填写 只判断上传文件
+        if(file_upload!=null){
+            var a= confirm("Do you want to leave the current page?");
+            if(a==false){
+                return false;
+            }
+        }
+
+        $(this).siblings().removeClass('bg_green');
+        $(this).addClass('bg_green');
+        var language = $(this).attr("language");
+        language==1?$('.zn').html(""):$('.zn').html("(CH)");
+        reset_form();
+        $("#language").val(language);
+        $("form").animate({'margin-top':"-100%"},1);
+        $("form").animate({'margin-top':"0"},700);
+    });
+
+    //重置表单
+    var reset_form = function(){
+        //去除选中图
+        $("#show_upload_img").attr("src","__STATIC__/images/icon/default_img.png");
+        $(".close").click();
+        $("#editor").html("");
+        var personal = $("#personal").val()
+        var roles = $("#roles").val()
+        document.getElementById("myform").reset();
+        $("#personal").val(personal);$("#roles").val(roles);
+    }
+
+
+    //提交下一条记录
+    $("#easyDialogYesBtn").click(function(){
+        $(".mask").hide()
+        //切换中英文
+        var change = false;
+        $(".weui_tab_nav a").each(function(){
+            if(change==false && !$(this).hasClass("bg_green") ){
+                $(this).siblings().removeClass('bg_green');
+                $(this).addClass('bg_green');
+                var language = $(this).attr("language");
+                language==1?$('.zn').html(""):$('.zn').html("(CH)");
+                reset_form();
+                $("#language").val(language);
+
+                $("form").animate({'margin-top':"-100%"},1);
+                $("form").animate({'margin-top':"0"},700);
+                change = true;
+            }
+        })
+    })
+
+</script>
+
+
+<script>
+    var upload_url = "{:url('Common/saveBase64Image')}"; //必须定义上传图片的地址
+    $(function () {
+        function initToolbarBootstrapBindings() {
+            var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
+                    'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+                    'Times New Roman', 'Verdana'],
+                fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+            $.each(fonts, function (idx, fontName) {
+                fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
+            });
+            $('a[title]').tooltip({container: 'body'});
+            $('.dropdown-menu input').click(function () {
+                return false;
+            }).change(function () {
+                $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
+            }).keydown('esc', function () {
+                this.value = '';
+                $(this).change();
+            });
+
+            $('[data-role=magic-overlay]').each(function () {
+                var overlay = $(this), target = $(overlay.data('target'));
+                overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+            });
+            $('#voiceBtn').hide();
+        };
+        initToolbarBootstrapBindings();
+        $('#editor').wysiwyg();
+        window.prettyPrint && prettyPrint();
+    });
+</script>
+
+<link href="__STATIC__/js/fSelect/fSelect.css" rel="stylesheet" type="text/css">
+<script src="__STATIC__/js/fSelect/fSelect.js?r=rand()"></script>
+<script>
+    $(function() {
+        $('.select').fSelect();
+    });
+</script>
+
+<style type="text/css">
+	body {font: 13px Arial, Helvetica, Sans-serif;}
+	.uploadifive-button {float: left;margin-right: 10px;}
+	#queue {position: absolute;top: 0; width: 100%;}
+	.layui-upload-drag {position: relative; border: 1px dashed #e2e2e2;background-color: #fff;text-align: center; cursor: pointer;color: #999;}
+	.layui-upload-drag input{height:100%;width:100%}
+	.layui-upload-drag i{font-size: 35px;color: #009688;}
+	.layui-icon { font-size: 50px;color: #009688;}
+	.layui-icon {font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;
+	}.uploadifive-queue-item{height:100%;}
+	.uploadifive-button{opacity: 0;position: absolute;top: 0;height: 100%;}
+</style>
+
+
+
+
+
+

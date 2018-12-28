@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>DUO</title>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" href="__STATIC__/duo/css/fontType.css">
+		<link rel="stylesheet" href="__STATIC__/duo/css/normalize.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/iconfont.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/swiper.css" />
+		<link rel="stylesheet" href="__STATIC__/duo/css/webinarsinfo.css" />
+		<style type="text/css">
+			.icon {
+				width: 1em;
+				height: 1em;
+				vertical-align: -0.15em;
+				fill: currentColor;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<!--对于jquery插入的代码中包含固定的文本先使用vue的语法进行使用,然后在插入dom时使用,虽然没这么做的蠢法-->
+			<div class="vue-data" style="display:none">
+				<span class="signUp">{{ $t("message.sign")}}</span>	
+				<span class="submitSuccess">{{ $t("message.submitSuccess")}}</span>	
+			</div>
+			<div class="">
+
+			</div>
+			<div class="cunzai" style="display: block;">
+				<!--语言选择-->
+				<div class="fixed-header">
+					<div class="select-language">
+						<div class="title">
+							<!-- <b></b> -->
+							<i class="text"></i>
+							<span class="fa fa-bars"></span>
+						</div>
+						<!-- <div class="dropdown">
+							<div class="arrow"></div>
+							<p data-language="en" lang-num="1">English<span class="fa fa-inbox"></span></p>
+							<p data-language="zh" lang-num="2">中文<span class="fa fa-gear"></span></p>
+						</div> -->
+					</div>
+					<div class="logo-img clearfix">
+						<div class="logo-img-wrapper logo-img-1">
+							<a href="javascript:;" onclick="history.go(-1)">
+								<div class="wai">
+									<div class="nei active">
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="line"></div>
+						<div class="logo-img-wrapper logo-img-2">
+							<a href="javascript:;" onclick="history.go(-1)">
+								<div class="wai">
+									<div class="nei active">
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				
+				<!--头部导航-->
+				<header class="top-header">
+					<div class="top-content">
+						<div class="content apple-banner">
+							<div class="swiper-container-1 swiper-container">
+								<div class="swiper-wrapper js-top-swiper">
+									<!--<div class="swiper-slide">
+										<img src="__STATIC__/duo/images/banner-2.png" alt="" />
+										<div class="gredient-mask"></div>
+									</div>-->
+									
+								</div>
+								<!-- Add Pagination -->
+								<div class="swiper-pagination swiper-pagination-1"></div>
+								<div class="banner-text js-top-text">
+									<p></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</header>
+				
+				<div class="section">
+					<div class="container">
+						<div class="crub">
+							<a class="icon-img" href="javascript:;" onclick="location.go(-1)">
+								<i>
+									<svg class="icon" aria-hidden="true">
+							  			<use xlink:href="#icon-shouye"></use>
+									</svg>
+								</i>
+								<span>{{ $t("message.home")}}</span>
+							</a>
+							<b><</b>
+							<span class="icon-img teshu">
+								<i>
+					    			<svg class="icon" aria-hidden="true">
+							  			<use xlink:href="#icon-Webinarsxuanzhong--"></use>
+									</svg>
+					    		</i>
+								<span><p>{{ $t("message.webinars")}}</p></span>
+							</span>
+						</div>
+						<div class="content">
+							<div class="Webinars-list clearfix">
+								<!--<div class="left-img">
+									<img src="__STATIC__/duo/images/Webinars-1.png" alt="" />
+								</div>
+								<div class="right-content fontFamily">
+									<p class="title"><span href="javascript:;">fjsfjskf fsdffs fsfsdf fsdfsdf</span></p>
+									<p class="time">
+										<b><i class="iconfont icon-yuyuetoubiao"></i></b>
+										<span>2018/3/5</span>
+									</p>
+									<p class="location">
+										<b><i class="iconfont icon-didian"></i></b>
+										<span>shagnss</span>
+									</p>
+									<a href="javascript:;" class="btn">Sign Up</a>
+								</div>	-->																							
+							</div>
+						</div>
+						<div class="Introduction">
+							<div class="title">
+								<b></b>
+								<span>{{ $t("message.introduction")}}</span>
+							</div>
+							<div class="text">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="footer">
+					<span>Copyright@2011-2018</span>
+				</div>
+
+				<!--表单弹出层-->
+				<div class="box-layer" id="form" style="display: none;">
+					<div class="bottom-mask">
+
+					</div>
+					<div class="top-content form-control">
+						<div class="success-content" style="display: none;">
+							<span style="display: block;text-align: center; font-size: 26px;margin-top:80px;color: #108cee;">提交成功</span>
+						</div>
+						<div class="form-biaodan" style="display: block;">
+							<div class="input-control">
+								<span>
+							<i>
+					    		<svg class="icon" aria-hidden="true">
+							  		<use xlink:href="#icon-xingming"></use>
+								</svg>
+						    </i>
+						</span>
+								<input id="name" type="text" placeholder="Name" />
+								<b id="nameTip" class="tip" style="display: none;">{{ $t("message.nameTip")}}</b>
+							</div>
+							<div class="input-control">
+								<span>
+							<i>
+					    		<svg class="icon" aria-hidden="true">
+							  		<use xlink:href="#icon-gongsi"></use>
+								</svg>
+						    </i>
+						</span>
+								<input id="company" type="text" placeholder="Company" />
+								<b id="companyTip" class="tip" style="display: none;">{{ $t("message.companyTip")}}</b>
+							</div>
+							<div class="input-control">
+								<span>
+							<i>
+					    		<svg class="icon" aria-hidden="true">
+							  		<use xlink:href="#icon-zhiwei"></use>
+								</svg>
+						    </i>
+						</span>
+								<input id="position" type="text" placeholder="position" />
+								<b id="positionTip" class="tip" style="display: none;">{{ $t("message.positionTip")}}</b>
+							</div>
+							<div class="input-control">
+								<span>
+							<i>
+					    		<svg class="icon" aria-hidden="true">
+							  		<use xlink:href="#icon-youxiang"></use>
+								</svg>
+						    </i>
+						</span>
+								<input id="eMail" type="text" placeholder="eMail" />
+								<b id="eMailTip" class="tip" style="display: none;">{{ $t("message.eMailTip")}}</b>
+							</div>
+							<div class="input-control">
+								<span>
+							<i>
+					    		<svg class="icon" aria-hidden="true">
+							  		<use xlink:href="#icon-dianhua"></use>
+								</svg>
+						    </i>
+						</span>
+								<input id="telephone" type="text" placeholder="Telephone" />
+								<b id="telephoneTip" class="tip" style="display: none;">{{ $t("message.telephoneTip")}}</b>
+							</div>
+							<div class="submit-btn">
+								<button class="js-submit-btn">Submit</button>
+							</div>
+						</div>
+						<div class="closes-btn">
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="__STATIC__/duo/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/iconfont.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/swiper.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/vue-2.5.13.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/duo/js/vue-i18n.min.js" type="text/javascript" charset="utf-8"></script>		
+		<script type="text/javascript">			
+			/*从本地存储获取数据*/
+			var sessionData = JSON.parse(sessionStorage.getItem('key'));
+			/*				console.log(sessionData);*/
+			var languageObj = {};
+			//定义全局变量作为语言类型
+			if(sessionData != null) {
+				languageObj = {
+					num: sessionData.num,
+					type: sessionData.type,
+					Change: sessionData.Change
+				};
+				if(languageObj.num == 2) {
+					$('head').prepend('<link rel="stylesheet" href="__STATIC__/duo/css/fontFamilyZH.css" />');
+				} else if(languageObj.num) {
+					$('head').prepend('<link rel="stylesheet" href="__STATIC__/duo/css/fontFamilyEn.css" />');
+				}
+				$(".select-language .text").html(languageObj.type);
+			} else {
+				languageObj = {
+					num: 1,
+					type: "English",
+					Change: "en"
+				};				
+				$(".select-language .text").html(languageObj.type);									
+			}
+			
+		</script>
+		<script src="__STATIC__/duo/js/international.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var PINGimgURL = '__STATIC__/duo/';
+			var ajaxUrl = "{:url('api/getContents')}";
+			var formAjaxUrl = "{:url('api/mapWebinarUser')}";
+			var indexUrl = "{:url('index/index')}"
+			$('html').removeAttr('style');
+		</script>
+		<script src="__STATIC__/duo/js/webinarsinfo.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

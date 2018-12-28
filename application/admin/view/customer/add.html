@@ -1,0 +1,127 @@
+ {include file="public/header"}
+ <style >
+ .content {padding-top: 30px !important;}
+ .img_wrap #file_upload_img {position: absolute;opacity: 0;left: 0;top: 0;width: 100%;height: 100%;max-width: 100% !important;}
+.img_wrap { overflow: hidden;height: 100px;width: 100px;position: relative;}
+.img_wrap img { width: 100%;height: 100%;padding:5px;border: 1px dashed  #e2e2e2;}
+.form-group-col-2 .form-cont{padding-left: 1px !important;}
+
+</style>
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="__STATIC__/plugins/twitter-bootstrap/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="__STATIC__/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="__STATIC__/plugins/wysiwyg/font-awesome.css" rel="stylesheet">
+<!--
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+-->
+
+<!--添加或者修改的弹框-->
+    <div class="content">   
+        <div class="weui_dialog_hd">
+			<a href="javascript:window.history.go(-1);" class="icon icon-109 f-white" style="padding-right: 20px;color:#00A9E0 !important">Back</a>
+            <span class="weui_dialog_title">Create customer </span>
+        </div>
+		
+        <form id="myform" class="parsley-validate " onsubmit="return false" method="post" id="form" data-parsley-validate >  
+			<div class="weui_cell" style="margin-top:20px" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">Cover <span class="zn"></span>:</label></div>
+                <div class="weui_cell_bd weui_cell_primary">
+					<div class="img_wrap">
+						<img src="__STATIC__/images/icon/default_img.png" id="show_upload_img">
+						<input type="file" id="file_upload_img">
+                    </div>	
+                    <p class="f-gray"><i class="icon icon-40 f20 "></i>JPG, PNG format only, file maximum 1M, size: 323X60px</p>
+					<input type="text" name="poster" id="upload_img" value="" required="required" style="display: none">
+                </div>
+            </div>
+
+			<div class="weui_cell" >
+                <div class="weui_cell_hd"><label for="" class="weui_label">Customer name:</div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="form-boxed form-control" type="text" name="customerName" style="max-width:40%" value="" placeholder="Customer name" data-parsley-trigger="change" required="required" />                                      
+                </div>                
+            </div>
+            <p style="display:block;margin-left:152px" class="f-gray"><i class="icon icon-40 f20 "></i>Name words maximum 100</p>
+            <div class="form-group-col-2">
+                <div class="form-label"></div>
+                <div class="form-cont">
+                    <input type="submit" class="btn btn-primary" id="submit" value="submit" style="margin: 30px 0;margin-left: 1px;"/>                   
+                </div>
+                
+            </div> 
+        </form>
+    </div>   
+
+
+	
+<script src="__STATIC__/js/zepto.min.js"></script>	
+<script src="__STATIC__/plugins/wysiwyg/jquery.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/jquery.hotkeys.js"></script>
+<script src="__STATIC__/plugins/twitter-bootstrap/js/bootstrap.min.js"></script>
+<script src="__STATIC__/plugins/wysiwyg/external/google-code-prettify/prettify.js"></script>
+<link href="__STATIC__/plugins/wysiwyg/index.css" rel="stylesheet">
+<script src="__STATIC__/plugins/wysiwyg/bootstrap-wysiwyg.js"></script>	
+<script src="__STATIC__/js/parsley.js"></script>
+
+<script>
+
+//表单验证成功后ajax提交保存
+var is_validate =  false; //表单的验证情况 默认验证失败
+$('.parsley-validate').parsley().on('form:success', function() {
+	var is_validate = true;
+	document.getElementById("submit").disabled = false;
+	ajax_saveData(); //提交数据
+});
+
+//ajax提交保存数据
+var HTTP_REFERER = "<?php echo $_SERVER['HTTP_REFERER'] ?>"
+var ajax_saveData = function(){
+	$.ajax({
+        cache: false,
+        type: "POST",
+        url:"{:url('add')}",
+        data:$('#myform').serialize(),// 你的formid
+        async: false,
+        success: function(data) {
+            if(data.code == 1 ){ //success
+				window.location.href = HTTP_REFERER;
+            }else{
+               alert(data.msg);
+            }
+        }
+    })
+}
+
+
+
+
+</script>
+
+
+<script>
+	//上传图片
+	$('#file_upload_img').on('change',function(){
+		var fd = new FormData();
+		fd.append('file', $('#file_upload_img')[0].files[0]); 
+	    $.ajax({
+			url: "{:url('common/upload')}",
+	        type: "POST", 
+	        processData: false,
+	        contentType: false,
+	        data: fd,
+	        success: function (result){
+				if(result){
+					$('#upload_img').val(result.url); 
+					$('#show_upload_img').attr("src",result.url);
+				}else{
+					alert('The system is busing please try again later, thanks!');
+				}
+			}	
+	    },'json'); 
+	});	
+ </script>
+
+
